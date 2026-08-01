@@ -603,7 +603,7 @@ footer a { color: var(--text-2); font-weight: 600; }
       also:
       <a href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.dmg">Mac (Intel)</a> ·
       <a href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.exe">Windows</a> ·
-      <a href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.AppImage">Linux</a>
+      <a href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x86_64.AppImage">Linux</a>
     </p>
   </div>
 </header>
@@ -750,7 +750,7 @@ footer a { color: var(--text-2); font-weight: 600; }
     <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg"><b>Mac</b><span>Apple silicon · .dmg</span></a>
     <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.dmg"><b>Mac</b><span>Intel · .dmg</span></a>
     <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.exe"><b>Windows</b><span>x64 · .exe</span></a>
-    <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.AppImage"><b>Linux</b><span>x64 · .AppImage</span></a>
+    <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x86_64.AppImage"><b>Linux</b><span>x64 · .AppImage</span></a>
   </div>
   <p class="smartscreen">
     The Windows build isn't code-signed yet, so SmartScreen may warn on first run.
@@ -791,7 +791,7 @@ fetch('https://api.github.com/repos/DrStylidis/deck-maker-app/releases/latest')
   let href = null
   let label = null
   if (/Win/.test(p)) { href = base + 'Deck-Maker-x64.exe'; label = '⬇ Download for Windows' }
-  else if (/Linux/.test(p) && !/Android/.test(ua)) { href = base + 'Deck-Maker-x64.AppImage'; label = '⬇ Download for Linux' }
+  else if (/Linux/.test(p) && !/Android/.test(ua)) { href = base + 'Deck-Maker-x86_64.AppImage'; label = '⬇ Download for Linux' }
   if (href) {
     const hero = document.getElementById('hero-dl')
     const nav = document.getElementById('nav-dl')

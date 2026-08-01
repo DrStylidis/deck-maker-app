@@ -505,7 +505,7 @@ footer a { color: var(--text-2); font-weight: 600; }
   let href = null
   let label = null
   if (/Win/.test(p)) { href = base + 'Deck-Maker-x64.exe'; label = '⬇ Download for Windows' }
-  else if (/Linux/.test(p) && !/Android/.test(ua)) { href = base + 'Deck-Maker-x64.AppImage'; label = '⬇ Download for Linux' }
+  else if (/Linux/.test(p) && !/Android/.test(ua)) { href = base + 'Deck-Maker-x86_64.AppImage'; label = '⬇ Download for Linux' }
   if (href) {
     const hero = document.getElementById('hero-dl')
     const nav = document.getElementById('nav-dl')

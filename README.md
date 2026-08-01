@@ -9,7 +9,7 @@ Download the desktop app at **[theunintended.me](https://theunintended.me)** or 
 - **[Mac (Apple Silicon)](https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg)**
 - [Mac (Intel)](https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.dmg)
 - [Windows](https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.exe)
-- [Linux (AppImage)](https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.AppImage)
+- [Linux (AppImage)](https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x86_64.AppImage)
 - [All releases →](https://github.com/DrStylidis/deck-maker-app/releases)
 
 The app auto-updates from these releases.
