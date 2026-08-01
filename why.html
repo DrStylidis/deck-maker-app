@@ -179,11 +179,10 @@ h1 {
   line-height: 1; letter-spacing: -0.02em;
   margin: 0 0 30px;
 }
-/* LinkedIn-style portrait — the essay is a person talking, show the person.
-   Floated right so it sits beside the heading, not above it. */
+/* LinkedIn-style portrait — sits in the signature block next to the name. */
 .avatar {
-  width: 96px; height: 96px; border-radius: 50%; object-fit: cover;
-  float: right; margin: 0 0 16px 20px;
+  width: 64px; height: 64px; border-radius: 50%; object-fit: cover;
+  flex: none;
   box-shadow: 0 0 0 3px var(--surface), var(--shadow-card);
 }
 
@@ -258,7 +257,6 @@ footer a { color: var(--text-2); font-weight: 600; }
 <main class="wrap">
   <article class="essay">
     <p class="eyebrow">The Unintended</p>
-    <img class="avatar" src="assets/kostas.jpg" alt="Kostas Stylidis" width="96" height="96" />
     <h1>Why</h1>
 
     <p class="lede">
@@ -301,6 +299,7 @@ footer a { color: var(--text-2); font-weight: 600; }
     </p>
 
     <div class="sig">
+      <img class="avatar" src="assets/kostas.jpg" alt="Kostas Stylidis" width="64" height="64" />
       <div class="who">
         Kostas Stylidis
         <div class="role">CEO and co-founder, Intended Future</div>
