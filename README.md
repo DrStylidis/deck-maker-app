@@ -2,7 +2,7 @@
 
 **Notes in. Deck out.** Turn Markdown, a PowerPoint, or a PDF into a clean, on-brand, responsive deck — preview on any device, export a PDF or PPTX, all on your machine.
 
-Download the desktop app at **[unintended.me](https://unintended.me)** or below. It's local-first and brings your own API key — no accounts. The only things that leave your machine are calls to the AI provider you configure and anonymous usage statistics (see Privacy).
+Download the desktop app at **[theunintended.me](https://theunintended.me)** or below. It's local-first and brings your own API key — no accounts. The only things that leave your machine are calls to the AI provider you configure and anonymous usage statistics (see Privacy).
 
 ## Download
 
