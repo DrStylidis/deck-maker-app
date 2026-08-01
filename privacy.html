@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacy &amp; cookies — Deck Maker</title>
+<meta name="description" content="Privacy and cookie policy for Deck Maker and unintended.me." />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon_round_32x32.png" />
+<style>
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('assets/fonts/Fraunces-Variable.woff2') format('woff2-variations');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('assets/fonts/Inter-Variable.woff2') format('woff2-variations');
+}
+:root {
+  --bg: #f5f5f6; --surface: #ffffff; --text: #0b0c0e; --text-2: #6f737b;
+  --border: #e2e4e7; --accent: #3c7c99;
+  --glass-bg: color-mix(in srgb, #ffffff 62%, transparent);
+  --glass-edge: rgba(0, 0, 0, 0.1);
+  --glass-specular: rgba(255, 255, 255, 0.85);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --display: 'Fraunces', Georgia, serif;
+  --body: 'Inter', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111315; --surface: #1a1d20; --text: #f5f5f6; --text-2: #9ba1a9;
+    --border: #2a2e33; --accent: #8dbbcc;
+    --glass-bg: color-mix(in srgb, #1a1d20 58%, transparent);
+    --glass-edge: rgba(255, 255, 255, 0.09);
+    --glass-specular: rgba(255, 255, 255, 0.12);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: var(--body); color: var(--text); background: var(--bg);
+  background-image:
+    radial-gradient(1200px 800px at 85% -10%, rgba(31, 185, 230, 0.07), transparent 60%),
+    radial-gradient(1000px 700px at -8% 108%, rgba(238, 135, 112, 0.055), transparent 62%);
+  -webkit-font-smoothing: antialiased; line-height: 1.6;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.nav {
+  position: sticky; top: 12px; z-index: 10;
+  display: flex; align-items: center; gap: 12px;
+  margin: 12px auto 0; max-width: 720px;
+  padding: 10px 18px 10px 14px; border-radius: 999px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(24px) saturate(1.7);
+  backdrop-filter: blur(24px) saturate(1.7);
+  box-shadow: inset 0 1px 0 var(--glass-specular), inset 0 0 0 1px var(--glass-edge), var(--glass-shadow);
+}
+.nav img { width: 24px; height: 24px; }
+.nav .name { font-family: var(--display); font-weight: 620; font-size: 16px; }
+.nav .spacer { flex: 1; }
+.nav a { font-size: 14px; font-weight: 600; color: var(--text-2); }
+main { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+h1 {
+  font-family: var(--display); font-weight: 590; font-size: clamp(32px, 5vw, 44px);
+  line-height: 1.05; letter-spacing: -0.015em; margin: 0 0 6px;
+}
+.updated { font-size: 13px; color: var(--text-2); margin: 0 0 36px; }
+h2 {
+  font-family: var(--display); font-weight: 590; font-size: 22px;
+  letter-spacing: -0.01em; margin: 36px 0 10px;
+}
+p, li { font-size: 15px; color: var(--text-2); }
+li { margin: 4px 0; }
+strong { color: var(--text); font-weight: 650; }
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  padding: 18px 20px; margin: 18px 0;
+}
+.card p { margin: 0; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <img src="assets/icon_round_64x64.png" alt="" />
+  <span class="name">Deck Maker</span>
+  <span class="spacer"></span>
+  <a href="index.html">← Back to unintended.me</a>
+</nav>
+
+<main>
+  <h1>Privacy &amp; cookies</h1>
+  <p class="updated">Last updated: 31 July 2026</p>
+
+  <p>
+    Deck Maker and this website (unintended.me) are made by <strong>Intended Future AB</strong>,
+    a company registered in Sweden (Anders Carlssons Gata 30, 417 55 Göteborg), operating here
+    as <strong>The Unintended</strong>. Intended Future AB is the data controller under
+    the GDPR. Contact: <a href="mailto:info@intendedfuture.se">info@intendedfuture.se</a>.
+  </p>
+
+  <h2>Cookies</h2>
+  <div class="card">
+    <p><strong>This website sets no cookies</strong> and runs no analytics or tracking scripts.</p>
+  </div>
+  <p>
+    Two things do happen when you visit: the site is served by GitHub Pages, which keeps
+    standard web-server logs (IP address, browser, requested page) under
+    <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>,
+    and your browser asks the GitHub API for the latest release number to show the version
+    badge. We receive nothing from either.
+  </p>
+
+  <h2>The Deck Maker app</h2>
+  <p>
+    Deck Maker is local-first. Your decks, notes, prompts, images, and exports are files on
+    your machine, and we cannot see them. When you author with a cloud engine, the app calls
+    that provider directly with <strong>your own API key</strong> (Anthropic, OpenAI, or xAI, under
+    that provider's terms), or your own local model, in which case nothing leaves your machine.
+    API keys are stored in your operating system's keychain.
+  </p>
+
+  <h2>Anonymous usage statistics</h2>
+  <p>The app sends us anonymous usage events so we can see whether Deck Maker works and is used:</p>
+  <ul>
+    <li><strong>What:</strong> app installed, app launched, a daily active ping, deck created, deck exported.</li>
+    <li><strong>With:</strong> app version, operating system, processor type, and a random install id.</li>
+    <li><strong>Never:</strong> deck content, file names, prompts, keys, or anything that identifies you. IP addresses are not stored; location is kept only as a coarse server region.</li>
+    <li><strong>Off switch:</strong> Settings → Privacy in the app, any time.</li>
+  </ul>
+  <p>
+    Legal basis: legitimate interest in understanding product usage (GDPR art. 6(1)(f)).
+    The data is anonymous and cannot be linked back to you by us. Usage statistics are kept
+    for up to three years, then deleted.
+  </p>
+
+  <h2>Image-generation credits</h2>
+  <p>
+    AI image generation is an optional paid feature. Purchases run through Stripe's checkout;
+    Stripe processes your payment details under
+    <a href="https://stripe.com/privacy">Stripe's privacy policy</a>. We receive the purchase
+    confirmation and issue a license key, and we keep purchase records for as long as
+    bookkeeping law requires. Generated images are created via our hosted service and are not
+    stored by us beyond delivery.
+  </p>
+
+  <h2>Your rights</h2>
+  <p>
+    Under the GDPR you can request access, rectification, erasure, restriction, objection,
+    portability, or withdraw consent, by writing to
+    <a href="mailto:info@intendedfuture.se">info@intendedfuture.se</a>. We respond within 15
+    business days. Note that usage statistics are anonymous: if you want your install's rows
+    deleted, include the install id shown in Settings → Privacy so we can find them.
+  </p>
+
+  <h2>Changes</h2>
+  <p>
+    If this policy changes, the new version is published on this page with an updated date.
+    For everything Intended Future AB does beyond Deck Maker, see the
+    <a href="https://www.intendedfuture.ai/privacy">Intended Future privacy policy</a>.
+  </p>
+</main>
+
+</body>
+</html>

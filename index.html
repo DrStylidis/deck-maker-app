@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Deck Maker — notes in, deck out</title>
+<meta name="description" content="Turn Markdown, PowerPoint, or a PDF into an on-brand deck — authored on your machine, exported as PDF, PPTX, or a website. Free, local, no accounts." />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon_round_32x32.png" />
+<link rel="icon" type="image/png" sizes="64x64" href="assets/icon_round_64x64.png" />
+<link rel="apple-touch-icon" href="assets/icon_round_256x256.png" />
+<meta property="og:title" content="Deck Maker — notes in, deck out" />
+<meta property="og:description" content="Drop in Markdown, a PowerPoint, or a PDF. Get back a deck with your brand on it. Free, local, no accounts." />
+<meta property="og:image" content="https://unintended.me/assets/og.png" />
+<meta property="og:url" content="https://unintended.me/" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<style>
+/* ── Fonts (self-hosted, OFL — see assets/fonts/) ─────────────────────────── */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('assets/fonts/Fraunces-Variable.woff2') format('woff2-variations');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('assets/fonts/Inter-Variable.woff2') format('woff2-variations');
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('assets/fonts/Manrope-VariableFont_wght.ttf') format('truetype-variations');
+}
+
+/* ── Tokens — adapted from the app's design system ────────────────────────── */
+:root {
+  --sea: #3c7c99;
+  --mist: #8dbbcc;
+  --signal: #1fb9e6;
+  --coral: #ee8770;
+  --grad-work: linear-gradient(90deg, #1fb9e6 0%, #aae7f3 100%);
+
+  --bg: #f5f5f6;
+  --surface: #ffffff;
+  --surface-2: #eaebec;
+  --text: #0b0c0e;
+  --text-2: #6f737b;
+  --text-3: #9ca0a8;
+  --border: #e2e4e7;
+  --accent: #3c7c99;
+  --btn-bg: #0b0c0e;
+  --btn-text: #ffffff;
+
+  --glass-bg: color-mix(in srgb, #ffffff 62%, transparent);
+  --glass-edge: rgba(0, 0, 0, 0.1);
+  --glass-specular: rgba(255, 255, 255, 0.85);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-window: 0 24px 80px rgba(0, 0, 0, 0.16), 0 4px 16px rgba(0, 0, 0, 0.08);
+
+  --bg-ambient:
+    radial-gradient(1200px 800px at 85% -10%, rgba(31, 185, 230, 0.07), transparent 60%),
+    radial-gradient(1000px 700px at -8% 108%, rgba(238, 135, 112, 0.055), transparent 62%),
+    radial-gradient(900px 620px at 108% 78%, rgba(170, 231, 243, 0.08), transparent 60%);
+
+  --display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --body: 'Inter', system-ui, -apple-system, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  --track-rail: 0.14em;
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --r-full: 999px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111315;
+    --surface: #1a1d20;
+    --surface-2: #22262b;
+    --text: #f5f5f6;
+    --text-2: #9ba1a9;
+    --text-3: #6f737b;
+    --border: #2a2e33;
+    --accent: #8dbbcc;
+    --btn-bg: #f5f5f6;
+    --btn-text: #0b0c0d;
+    --glass-bg: color-mix(in srgb, #1a1d20 58%, transparent);
+    --glass-edge: rgba(255, 255, 255, 0.09);
+    --glass-specular: rgba(255, 255, 255, 0.12);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-window: 0 24px 80px rgba(0, 0, 0, 0.55), 0 4px 16px rgba(0, 0, 0, 0.35);
+    --bg-ambient:
+      radial-gradient(1200px 800px at 85% -10%, rgba(31, 185, 230, 0.09), transparent 60%),
+      radial-gradient(1000px 700px at -8% 108%, rgba(238, 135, 112, 0.05), transparent 62%),
+      radial-gradient(900px 620px at 108% 78%, rgba(141, 187, 204, 0.07), transparent 60%);
+  }
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--body);
+  color: var(--text);
+  background: var(--bg);
+  background-image: var(--bg-ambient);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid rgba(31, 185, 230, 0.7); outline-offset: 2px; border-radius: 4px; }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+/* ── Nav — glass capsule, the app's own toolbar idiom ─────────────────────── */
+.nav {
+  position: sticky; top: 16px; z-index: 10;
+  display: flex; align-items: center; gap: 14px;
+  margin: 16px auto 0; max-width: 1240px;
+  padding: 10px 12px 10px 16px;
+  border-radius: var(--r-full);
+  /* Liquid Glass with a brand-gradient sheen drifting through it */
+  background:
+    linear-gradient(110deg,
+      rgba(31, 185, 230, 0.20),
+      rgba(170, 231, 243, 0.12) 30%,
+      rgba(245, 245, 246, 0) 52%,
+      rgba(238, 135, 112, 0.18) 100%),
+    var(--glass-bg);
+  background-size: 220% 100%, auto;
+  -webkit-backdrop-filter: blur(24px) saturate(1.7);
+  backdrop-filter: blur(24px) saturate(1.7);
+  box-shadow: inset 0 1px 0 var(--glass-specular), inset 0 0 0 1px var(--glass-edge), var(--glass-shadow);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nav { animation: sheen 14s ease-in-out infinite alternate; }
+  @keyframes sheen {
+    from { background-position: 0% 0, 0 0; }
+    to { background-position: 100% 0, 0 0; }
+  }
+}
+.nav img {
+  width: 84px; height: 84px; display: block;
+  margin: -15px 14px -15px -10px; /* overflow the capsule — the icon is the sign */
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.26));
+}
+/* Both lines share Manrope (the app's own UI face) and one left edge. */
+.nav .brand { display: flex; flex-direction: column; justify-content: center; gap: 4px; font-family: 'Manrope', var(--body); }
+/* 20.6px makes "Deck Maker" exactly as wide as the tracked byline below. */
+.nav .name { font-weight: 800; font-size: 20.6px; letter-spacing: -0.01em; line-height: 1; }
+.nav .by { font-size: 11px; font-weight: 700; color: var(--text-2); letter-spacing: var(--track-rail); text-transform: uppercase; line-height: 1; }
+.nav a.brandlink { text-decoration: none; display: flex; align-items: center; }
+.nav a.brandlink:hover { text-decoration: none; }
+.nav .spacer { flex: 1; }
+.nav .lnk { font-size: 14px; font-weight: 600; color: var(--text-2); }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--btn-bg); color: var(--btn-text);
+  font-weight: 600; font-size: 15px; line-height: 1;
+  padding: 12px 22px; border-radius: var(--r-full);
+  border: none; cursor: pointer; text-decoration: none;
+  transition: transform 120ms var(--ease), box-shadow 120ms var(--ease);
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,.18); text-decoration: none; }
+.btn.sm { padding: 9px 16px; font-size: 14px; }
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.hero { text-align: center; padding: 84px 0 40px; }
+.eyebrow {
+  font-size: 12px; font-weight: 700; letter-spacing: var(--track-rail);
+  text-transform: uppercase; color: var(--text-2); margin: 0 0 20px;
+}
+h1 {
+  font-family: var(--display);
+  font-weight: 590;
+  font-size: clamp(44px, 8vw, 84px);
+  line-height: 1.02; letter-spacing: -0.02em;
+  margin: 0 0 20px;
+}
+h1 .out { color: var(--coral); } /* coral №1 — the outcome */
+.sub {
+  font-size: clamp(16px, 2.2vw, 19px); color: var(--text-2);
+  max-width: 52ch; margin: 0 auto 32px;
+}
+.cta { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.meta { font-family: var(--mono); font-size: 13px; color: var(--text-3); }
+.others { font-size: 14px; color: var(--text-3); }
+.others a { margin: 0 6px; font-weight: 600; }
+
+/* ── Signature: the app window running the core loop ──────────────────────── */
+.stage { padding: 40px 0 8px; }
+.window {
+  position: relative;
+  max-width: 880px; margin: 0 auto;
+  border-radius: 14px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(24px) saturate(1.7);
+  backdrop-filter: blur(24px) saturate(1.7);
+  box-shadow: inset 0 1px 0 var(--glass-specular), inset 0 0 0 1px var(--glass-edge), var(--shadow-window);
+  overflow: hidden;
+}
+.titlebar { display: flex; align-items: center; gap: 8px; padding: 13px 16px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--glass-edge); }
+.dot.r { background: #f4645c; } .dot.y { background: #f6bd3b; } .dot.g { background: #43c644; }
+.body { display: grid; grid-template-columns: 176px 1fr; min-height: 380px; }
+
+/* Mirrors the real app sidebar: black "+ New deck" capsule, then the nav. */
+.rail { padding: 12px 10px 16px; border-right: 1px solid var(--glass-edge); text-align: left; }
+.rail .newdeck {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  background: var(--btn-bg); color: var(--btn-text);
+  font-size: 12px; font-weight: 600; line-height: 1;
+  border-radius: var(--r-full); padding: 9px 10px; margin: 0 4px 14px;
+}
+.rail .row {
+  display: flex; align-items: center; gap: 9px;
+  font-size: 12.5px; font-weight: 600; color: var(--text-2);
+  padding: 8px 12px; border-radius: 10px;
+}
+.rail .row svg { width: 13px; height: 13px; flex: none; }
+.rail .row.on { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--text); }
+
+.canvas { position: relative; padding: 22px 26px 56px; display: grid; place-items: center; min-height: 380px; }
+.scene { position: absolute; inset: 12px 26px 14px; display: grid; place-items: center; opacity: 0; }
+.scene.s4 { opacity: 1; } /* reduced-motion / no-animation default: show the result */
+
+/* Captions — one glass chip per scene, same voice as the job capsule */
+.cap {
+  position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(24px) saturate(1.7);
+  backdrop-filter: blur(24px) saturate(1.7);
+  box-shadow: inset 0 1px 0 var(--glass-specular), inset 0 0 0 1px var(--glass-edge), var(--glass-shadow);
+  border-radius: var(--r-full); padding: 9px 16px;
+  font-family: var(--mono); font-size: 12px; color: var(--text-2); white-space: nowrap;
+}
+
+/* Scene 1 — a real claude.ai chat: warm paper, terracotta mark, user bubble
+   right, the script as a markdown code block, composer at the bottom.
+   Fixed light colors — it depicts Claude's UI, like the slide depicts a deck. */
+.chatcard {
+  width: min(440px, 94%); background: #faf9f5; border: 1px solid #e8e5dc;
+  border-radius: 14px; box-shadow: var(--shadow-card); padding: 12px 14px 12px;
+  text-align: left; color: #3d3929;
+}
+.chathead {
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--display); font-weight: 620; font-size: 14px; color: #3d3929;
+  padding-bottom: 9px; border-bottom: 1px solid #e8e5dc; margin-bottom: 10px;
+}
+.cbubble {
+  margin-left: auto; width: fit-content; max-width: 86%;
+  background: #f0eee6; color: #3d3929;
+  border-radius: 14px 14px 4px 14px; padding: 8px 13px; font-size: 12.5px;
+}
+.cresp { font-size: 12.5px; color: #3d3929; margin: 10px 0 6px; }
+.cblock { background: #f5f4ed; border: 1px solid #e8e5dc; border-radius: 8px; overflow: hidden; }
+.cblock-h {
+  font-family: var(--mono); font-size: 10px; color: #8a8574;
+  background: #eceade; padding: 4px 10px;
+}
+.cblock .mdline { font-family: var(--mono); font-size: 11.5px; color: #6f6a58; padding: 1.5px 10px; }
+.cblock .mdline:first-of-type { padding-top: 7px; }
+.cblock .mdline:last-of-type { padding-bottom: 8px; }
+.mdline.h { color: #3d3929; font-weight: 700; }
+.composer {
+  margin-top: 11px; background: #ffffff; border: 1px solid #e0ddd3;
+  border-radius: var(--r-full); padding: 8px 14px; font-size: 12px; color: #a8a291;
+}
+
+/* Scene 2 — drop the .md into the New-deck dropzone */
+.dropcard { position: relative; width: min(440px, 94%); text-align: center; }
+.dz {
+  border: 2px dashed var(--border); border-radius: 14px; padding: 44px 20px 26px;
+  background: var(--surface); box-shadow: var(--shadow-card);
+}
+.dz strong { display: block; font-size: 15px; color: var(--text); }
+.dz span { font-size: 12.5px; color: var(--text-3); }
+.filechip {
+  position: absolute; left: 50%; top: 14px; transform: translateX(-50%);
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  box-shadow: var(--shadow-card); padding: 6px 12px;
+  font-family: var(--mono); font-size: 12px; color: var(--text-2); white-space: nowrap;
+}
+
+/* Scene 3 — StyleMaker scrapes your website into a Style */
+.stylecard {
+  width: min(440px, 94%); background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; box-shadow: var(--shadow-card); padding: 16px; text-align: left;
+}
+.urlrow {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 12px; color: var(--text);
+  background: var(--surface-2); border-radius: 8px; padding: 8px 12px;
+}
+.urlrow .go {
+  margin-left: auto; background: var(--btn-bg); color: var(--btn-text);
+  font-family: var(--body); font-size: 11.5px; font-weight: 600;
+  border-radius: var(--r-full); padding: 5px 12px;
+}
+.swatches { display: flex; align-items: center; gap: 8px; margin: 14px 2px 4px; }
+.sw { width: 26px; height: 26px; border-radius: 8px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+.sw.a { background: #3c7c99; } .sw.b { background: #8dbbcc; } .sw.c { background: #1fb9e6; } .sw.d { background: #ee8770; }
+.sw.f {
+  width: auto; height: auto; background: var(--surface-2); box-shadow: none;
+  font-size: 11.5px; font-weight: 700; color: var(--text-2); padding: 5px 10px; border-radius: 8px;
+}
+.styled-ok { font-size: 12px; font-weight: 700; color: #2e7d55; margin-top: 8px; }
+/* The slide is a real page from the default Intended Future style — white paper
+   in BOTH themes (a deck renders the same regardless of app chrome). */
+.slide {
+  position: relative; width: min(480px, 100%); aspect-ratio: 16 / 9;
+  background: #ffffff; border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  padding: 24px 28px 20px 46px;
+  text-align: left; overflow: hidden;
+}
+.slide .mark { position: absolute; left: 12px; top: 12px; width: 16px; height: 16px; }
+.slide .railtext {
+  position: absolute; left: 13px; top: 40px; bottom: 16px;
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  font-size: 6.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: #9ca0a8; display: flex; align-items: center; white-space: nowrap;
+}
+.slide .eyebrow-s {
+  font-size: 8.5px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: #0b0c0e; margin-bottom: 8px;
+}
+.slide h3 {
+  font-weight: 800; text-transform: uppercase;
+  font-size: clamp(16px, 3vw, 25px); line-height: 1.05; letter-spacing: -0.01em;
+  color: #0b0c0e; margin: 0 0 6px; max-width: 18ch;
+}
+.slide .sub-blue {
+  font-weight: 700; text-transform: uppercase;
+  font-size: clamp(10px, 1.6vw, 14px); line-height: 1.2; letter-spacing: 0;
+  color: #3c7c99; margin: 0 0 12px;
+}
+.slide .line { height: 6px; border-radius: 3px; background: #eaebec; margin: 7px 0; }
+.slide .line.w1 { width: 78%; } .slide .line.w2 { width: 62%; }
+.slide .chart { display: flex; gap: 8px; align-items: flex-end; height: 48px; margin-top: 14px; }
+.slide .col { flex: 1; border-radius: 3px 3px 0 0; background: #8dbbcc; }
+.slide .col:nth-child(2) { background: #3c7c99; }
+.slide .col:nth-child(4) { background: #3c7c99; }
+.slide .col:nth-child(1) { height: 40%; } .slide .col:nth-child(2) { height: 62%; }
+.slide .col:nth-child(3) { height: 50%; } .slide .col:nth-child(4) { height: 88%; }
+
+/* The working moment: a file chip + gradient progress. The ONLY gradient on
+   the page — the app's rule: gradients are "the machine is working" energy. */
+.job { display: flex; align-items: center; gap: 10px; }
+.job .track { width: 90px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.job .fill { height: 100%; width: 100%; border-radius: 2px; background: var(--grad-work); }
+.job .state::after { content: 'Styled ✓'; }
+
+/* Step dots under the window — sync with the 4 scenes */
+.dots { display: flex; justify-content: center; gap: 7px; margin-top: 16px; }
+.dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--border); }
+.dots i:nth-child(4) { background: var(--accent); } /* no-animation default */
+
+/* One 20s timeline, four scenes: Claude script → drop .md → style from
+   website → deck comes back styled. Reduced motion gets the finished deck. */
+@media (prefers-reduced-motion: no-preference) {
+  .scene.s1 { animation: sc1 20s var(--ease) infinite; }
+  .scene.s2 { animation: sc2 20s var(--ease) infinite; }
+  .scene.s3 { animation: sc3 20s var(--ease) infinite; }
+  .scene.s4 { animation: sc4 20s var(--ease) infinite; }
+  @keyframes sc1 { 0% { opacity: 0; } 2%, 22% { opacity: 1; } 25%, 100% { opacity: 0; } }
+  @keyframes sc2 { 0%, 25% { opacity: 0; } 28%, 47% { opacity: 1; } 50%, 100% { opacity: 0; } }
+  @keyframes sc3 { 0%, 50% { opacity: 0; } 53%, 72% { opacity: 1; } 75%, 100% { opacity: 0; } }
+  @keyframes sc4 { 0%, 75% { opacity: 0; } 78%, 99% { opacity: 1; } 100% { opacity: 0; } }
+
+  /* s1: the reply streams in */
+  .s1 .l1 { animation: lineIn 20s var(--ease) infinite; }
+  .s1 .l2 { animation: lineIn 20s var(--ease) infinite; animation-delay: 0.8s; }
+  .s1 .l3 { animation: lineIn 20s var(--ease) infinite; animation-delay: 1.6s; }
+  @keyframes lineIn { 0%, 5% { opacity: 0; } 8%, 100% { opacity: 1; } }
+
+  /* s2: the file falls into the dropzone, which lights up */
+  .s2 .filechip { animation: chipDrop 20s var(--ease) infinite; }
+  .s2 .dz { animation: dzGlow 20s var(--ease) infinite; }
+  @keyframes chipDrop {
+    0%, 29% { opacity: 0; transform: translate(-50%, -46px); }
+    31% { opacity: 1; transform: translate(-50%, -46px); }
+    36%, 100% { opacity: 1; transform: translate(-50%, 0); }
+  }
+  @keyframes dzGlow {
+    0%, 35% { border-color: var(--border); }
+    38%, 46% { border-color: var(--accent); }
+    50%, 100% { border-color: var(--border); }
+  }
+
+  /* s3: swatches pop as the site is scraped */
+  .s3 .sw.a { animation: swPop 20s var(--ease) infinite; }
+  .s3 .sw.b { animation: swPop 20s var(--ease) infinite; animation-delay: 0.4s; }
+  .s3 .sw.c { animation: swPop 20s var(--ease) infinite; animation-delay: 0.8s; }
+  .s3 .sw.d { animation: swPop 20s var(--ease) infinite; animation-delay: 1.2s; }
+  .s3 .sw.f { animation: swPop 20s var(--ease) infinite; animation-delay: 1.6s; }
+  .s3 .styled-ok { animation: okIn 20s var(--ease) infinite; }
+  @keyframes swPop { 0%, 55% { opacity: 0; transform: scale(0.6); } 58%, 100% { opacity: 1; transform: scale(1); } }
+  @keyframes okIn { 0%, 62% { opacity: 0; } 65%, 100% { opacity: 1; } }
+
+  /* s4: authoring runs, then the slide reveals styled */
+  .slide .reveal { animation: reveal 20s var(--ease) infinite; }
+  .job .fill { animation: fill 20s linear infinite; }
+  .job .state::after { animation: state 20s step-end infinite; }
+  @keyframes reveal {
+    0%, 80% { opacity: 0; transform: translateY(6px); }
+    85%, 100% { opacity: 1; transform: none; }
+  }
+  @keyframes fill {
+    0%, 76% { width: 0; } 78% { width: 12%; } 84% { width: 96%; } 86%, 100% { width: 100%; }
+  }
+  @keyframes state { 0% { content: 'Authoring…'; } 85%, 100% { content: 'Styled ✓'; } }
+
+  /* dots track the scenes */
+  .dots i:nth-child(1) { animation: d1 20s step-end infinite; }
+  .dots i:nth-child(2) { animation: d2 20s step-end infinite; }
+  .dots i:nth-child(3) { animation: d3 20s step-end infinite; }
+  .dots i:nth-child(4) { animation: d4 20s step-end infinite; }
+  @keyframes d1 { 0% { background: var(--accent); } 25%, 100% { background: var(--border); } }
+  @keyframes d2 { 0% { background: var(--border); } 25% { background: var(--accent); } 50%, 100% { background: var(--border); } }
+  @keyframes d3 { 0% { background: var(--border); } 50% { background: var(--accent); } 75%, 100% { background: var(--border); } }
+  @keyframes d4 { 0% { background: var(--border); } 75%, 100% { background: var(--accent); } }
+}
+
+/* ── How it works — the pipeline, numbered because it IS a sequence ───────── */
+.section { padding: 88px 0 0; }
+.section > h2 {
+  font-size: 12px; font-weight: 700; letter-spacing: var(--track-rail);
+  text-transform: uppercase; color: var(--text-2);
+  text-align: center; margin: 0 0 36px;
+}
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.step {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(24px) saturate(1.7);
+  backdrop-filter: blur(24px) saturate(1.7);
+  box-shadow: inset 0 1px 0 var(--glass-specular), inset 0 0 0 1px var(--glass-edge), var(--glass-shadow);
+  border-radius: 16px; padding: 26px 24px;
+}
+.step .n { font-family: var(--display); font-weight: 560; font-size: 15px; color: var(--text-3); }
+.step h3 { font-family: var(--display); font-weight: 590; font-size: 22px; letter-spacing: -0.01em; margin: 6px 0 8px; }
+.step p { margin: 0; font-size: 14.5px; color: var(--text-2); }
+.step .chip {
+  display: inline-block; margin-top: 14px;
+  font-family: var(--mono); font-size: 12px; color: var(--text-2);
+  background: var(--surface); border-radius: 7px; padding: 5px 10px;
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Features — live colorful glass, tint rotating per card ───────────────── */
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.cell {
+  border-radius: 16px; padding: 20px; text-align: left;
+  background:
+    radial-gradient(130% 150% at 12% 0%, rgba(31, 185, 230, 0.16), transparent 55%),
+    radial-gradient(130% 150% at 100% 100%, rgba(170, 231, 243, 0.14), transparent 55%),
+    var(--glass-bg);
+  -webkit-backdrop-filter: blur(24px) saturate(1.7);
+  backdrop-filter: blur(24px) saturate(1.7);
+  box-shadow: inset 0 1px 0 var(--glass-specular), inset 0 0 0 1px var(--glass-edge), var(--glass-shadow);
+}
+.cell:nth-child(2) {
+  background:
+    radial-gradient(130% 150% at 12% 0%, rgba(238, 135, 112, 0.15), transparent 55%),
+    radial-gradient(130% 150% at 100% 100%, rgba(31, 185, 230, 0.13), transparent 55%),
+    var(--glass-bg);
+}
+.cell:nth-child(3) {
+  background:
+    radial-gradient(130% 150% at 12% 0%, rgba(141, 187, 204, 0.20), transparent 55%),
+    radial-gradient(130% 150% at 100% 100%, rgba(236, 203, 188, 0.18), transparent 55%),
+    var(--glass-bg);
+}
+.cell:nth-child(4) {
+  background:
+    radial-gradient(130% 150% at 12% 0%, rgba(170, 231, 243, 0.18), transparent 55%),
+    radial-gradient(130% 150% at 100% 100%, rgba(238, 135, 112, 0.14), transparent 55%),
+    var(--glass-bg);
+}
+.cell:nth-child(5) {
+  background:
+    radial-gradient(130% 150% at 12% 0%, rgba(236, 203, 188, 0.20), transparent 55%),
+    radial-gradient(130% 150% at 100% 100%, rgba(141, 187, 204, 0.16), transparent 55%),
+    var(--glass-bg);
+}
+.cell:nth-child(6) {
+  background:
+    radial-gradient(130% 150% at 12% 0%, rgba(31, 185, 230, 0.14), transparent 55%),
+    radial-gradient(130% 150% at 100% 100%, rgba(238, 135, 112, 0.16), transparent 55%),
+    var(--glass-bg);
+}
+.cell h3 { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 6px; }
+.cell p { margin: 0; font-size: 14px; color: var(--text-2); }
+
+/* ── Privacy ──────────────────────────────────────────────────────────────── */
+.privacy { max-width: 640px; margin: 0 auto; text-align: center; }
+.privacy p { font-size: 14.5px; color: var(--text-2); margin: 0; }
+
+/* ── Downloads ────────────────────────────────────────────────────────────── */
+.downloads { text-align: center; }
+.dl-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.dl {
+  display: inline-flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  border-radius: 16px; padding: 14px 20px; min-width: 168px;
+  background:
+    radial-gradient(140% 160% at 10% 0%, rgba(31, 185, 230, 0.16), transparent 60%),
+    radial-gradient(140% 160% at 100% 100%, rgba(170, 231, 243, 0.14), transparent 60%),
+    var(--glass-bg);
+  -webkit-backdrop-filter: blur(24px) saturate(1.7);
+  backdrop-filter: blur(24px) saturate(1.7);
+  box-shadow: inset 0 1px 0 var(--glass-specular), inset 0 0 0 1px var(--glass-edge), var(--glass-shadow);
+  text-decoration: none;
+  transition: transform 120ms var(--ease);
+}
+.dl:nth-child(2) {
+  background:
+    radial-gradient(140% 160% at 10% 0%, rgba(141, 187, 204, 0.20), transparent 60%),
+    radial-gradient(140% 160% at 100% 100%, rgba(236, 203, 188, 0.16), transparent 60%),
+    var(--glass-bg);
+}
+.dl:nth-child(3) {
+  background:
+    radial-gradient(140% 160% at 10% 0%, rgba(238, 135, 112, 0.15), transparent 60%),
+    radial-gradient(140% 160% at 100% 100%, rgba(31, 185, 230, 0.13), transparent 60%),
+    var(--glass-bg);
+}
+.dl:nth-child(4) {
+  background:
+    radial-gradient(140% 160% at 10% 0%, rgba(170, 231, 243, 0.18), transparent 60%),
+    radial-gradient(140% 160% at 100% 100%, rgba(141, 187, 204, 0.16), transparent 60%),
+    var(--glass-bg);
+}
+.dl:hover { transform: translateY(-1px); text-decoration: none; }
+.dl b { color: var(--text); font-size: 15px; }
+.dl span { font-family: var(--mono); font-size: 12px; color: var(--text-3); }
+.smartscreen { font-size: 13px; color: var(--text-3); margin-top: 18px; }
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+footer {
+  margin-top: 96px; padding: 32px 24px 44px;
+  border-top: 1px solid var(--border);
+  text-align: center; font-size: 13.5px; color: var(--text-3);
+}
+footer .marks { display: flex; justify-content: center; gap: 18px; margin-bottom: 10px; }
+footer a { color: var(--text-2); font-weight: 600; }
+
+@media (max-width: 820px) {
+  .steps, .grid { grid-template-columns: 1fr; }
+  .body { grid-template-columns: 1fr; }
+  .rail { display: none; }
+  .nav { margin: 12px 16px 0; gap: 10px; padding-left: 12px; }
+  .nav .by { display: none; }
+  .nav img { width: 60px; height: 60px; margin: -8px 8px -8px -6px; }
+  .nav .lnk { font-size: 13px; }
+  .hero { padding-top: 64px; }
+}
+/* 375px: five nav items only fit if the wordmark yields to the icon. */
+@media (max-width: 480px) {
+  .nav { gap: 8px; }
+  .nav .brand { display: none; }
+  .nav .lnk { font-size: 12.5px; }
+  .btn.sm { padding: 8px 12px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brandlink" href="index.html">
+    <img src="assets/icon_round_512x512.png" alt="" />
+    <span class="brand">
+      <span class="name">Deck Maker</span>
+      <span class="by">The Unintended</span>
+    </span>
+  </a>
+  <div class="spacer"></div>
+  <a class="lnk" href="why.html">Why</a>
+  <a class="lnk" href="faq.html">FAQ</a>
+  <a class="lnk" href="https://github.com/DrStylidis/deck-maker-app">GitHub</a>
+  <a class="btn sm" id="nav-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">Download</a>
+</nav>
+
+<header class="hero wrap">
+  <p class="eyebrow">Free · Local · No accounts</p>
+  <h1>Notes in.<br /><span class="out">Deck out.</span></h1>
+  <p class="sub">
+    Drop in Markdown, an old PowerPoint, a PDF — or just describe the deck in a
+    sentence. It comes back on brand and ready to present, and goes out as a PDF,
+    a PPTX, or a website. Everything runs on your machine, with your own AI key.
+  </p>
+  <div class="cta">
+    <a class="btn" id="hero-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">⬇ Download for Mac</a>
+    <span class="meta" id="version">macOS 11+ · Apple silicon</span>
+    <p class="others">
+      also:
+      <a href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.dmg">Mac (Intel)</a> ·
+      <a href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.exe">Windows</a> ·
+      <a href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.AppImage">Linux</a>
+    </p>
+  </div>
+</header>
+
+<section class="stage wrap" aria-label="The Deck Maker flow: draft a script in Claude, drop the Markdown, extract your style from a website, get a styled deck">
+  <div class="window">
+    <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+    <div class="body">
+      <aside class="rail">
+        <div class="newdeck">+ New deck</div>
+        <div class="row on">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Decks
+        </div>
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+          Styles
+        </div>
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg>
+          Library
+        </div>
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          Settings
+        </div>
+      </aside>
+      <div class="canvas">
+
+        <div class="scene s1">
+          <div class="chatcard">
+            <div class="chathead">
+              <svg viewBox="0 0 24 24" width="15" height="15" stroke="#d97757" stroke-width="3.2" stroke-linecap="round"><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="5.6" y1="5.6" x2="18.4" y2="18.4"/><line x1="18.4" y1="5.6" x2="5.6" y2="18.4"/></svg>
+              Claude
+            </div>
+            <div class="cbubble">Turn my Q3 notes into a deck script</div>
+            <div class="cresp">Here's your deck script as Markdown:</div>
+            <div class="cblock">
+              <div class="cblock-h">markdown</div>
+              <div class="mdline h l1"># Plan on a page: Q3</div>
+              <div class="mdline l2">## Ship the core loop</div>
+              <div class="mdline l3">- One metric per slide…</div>
+            </div>
+            <div class="composer">Reply to Claude…</div>
+          </div>
+          <div class="cap">1 · claude.ai → quarterly-notes.md</div>
+        </div>
+
+        <div class="scene s2">
+          <div class="dropcard">
+            <div class="dz"><strong>Drop your .md here</strong><span>AI styles it</span></div>
+            <div class="filechip">quarterly-notes.md</div>
+          </div>
+          <div class="cap">2 · New deck → Upload .md</div>
+        </div>
+
+        <div class="scene s3">
+          <div class="stylecard">
+            <div class="urlrow">intendedfuture.ai <span class="go">Scrape site</span></div>
+            <div class="swatches">
+              <span class="sw a"></span><span class="sw b"></span><span class="sw c"></span><span class="sw d"></span>
+              <span class="sw f">Manrope</span>
+            </div>
+            <div class="styled-ok">Style extracted ✓ — palette, font, logo</div>
+          </div>
+          <div class="cap">3 · StyleMaker → From a website</div>
+        </div>
+
+        <div class="scene s4">
+          <div class="slide">
+            <img class="mark" src="assets/if-mark.png" alt="" />
+            <div class="railtext">Intended Future AB, © Copyright 2026</div>
+            <div class="reveal">
+              <div class="eyebrow-s">02. The Plan</div>
+              <h3>Plan on a page: Q3.</h3>
+              <div class="sub-blue">Ship the core loop.</div>
+              <div class="line w1"></div>
+              <div class="line w2"></div>
+              <div class="chart"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div></div>
+            </div>
+          </div>
+          <div class="cap job">
+            <span>quarterly-notes.md</span>
+            <span class="track"><span class="fill"></span></span>
+            <span class="state"></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="dots"><i></i><i></i><i></i><i></i></div>
+</section>
+
+<section class="section wrap">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="n">1</div>
+      <h3>Drop a file</h3>
+      <p>Markdown notes (draft them in Claude or ChatGPT first if you like), an old PowerPoint, or a PDF. That's the whole input.</p>
+      <span class="chip">.md · .pptx · .pdf</span>
+    </div>
+    <div class="step">
+      <div class="n">2</div>
+      <h3>Point it at your brand</h3>
+      <p>Give StyleMaker your website and it lifts the palette, type, and logo. Or let it read the look of whatever file you dropped in. Either way, your content lands on clean layouts.</p>
+      <span class="chip">StyleMaker → your brand</span>
+    </div>
+    <div class="step">
+      <div class="n">3</div>
+      <h3>Export and send</h3>
+      <p>A print-clean PDF, a genuinely editable PPTX, or a self-contained site you can host anywhere.</p>
+      <span class="chip">.pdf · .pptx · website</span>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap">
+  <h2>Built like a tool, not a service</h2>
+  <div class="grid">
+    <div class="cell"><h3>Yours, not ours</h3><p>Decks are files on your disk, not rows in someone's database. No account, no sync, no seat to renew. Nothing disappears if we do.</p></div>
+    <div class="cell"><h3>Bring your own AI</h3><p>Use your own key for Anthropic, OpenAI, or xAI Grok — or run a local model and stay offline entirely. Keys live in your system keychain, never on our servers.</p></div>
+    <div class="cell"><h3>Images when you want them</h3><p>Generate slide art with Nano Banana Pro from inside the app. Buy a small credit pack only if you use it. Everything else is free.</p></div>
+    <div class="cell"><h3>Imports the mess</h3><p>That 40-slide PPTX from 2019 becomes clean, editable content, images and all.</p></div>
+    <div class="cell"><h3>Every element editable</h3><p>Click anything on the canvas and change it: slide text, layout, images, styling.</p></div>
+    <div class="cell"><h3>Auto-updates</h3><p>New versions install themselves from GitHub Releases. You'll never download an installer twice.</p></div>
+  </div>
+</section>
+
+<section class="section wrap privacy" id="privacy">
+  <h2>Privacy</h2>
+  <p>
+    Deck Maker reports three anonymous events — app launched, deck created, deck
+    exported — along with your app version and OS. Never your content, your prompts,
+    or your keys. IP addresses are never stored.
+    <a href="faq.html#privacy">More in the FAQ →</a>
+  </p>
+</section>
+
+<section class="section wrap downloads">
+  <h2>All downloads</h2>
+  <div class="dl-row">
+    <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg"><b>Mac</b><span>Apple silicon · .dmg</span></a>
+    <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.dmg"><b>Mac</b><span>Intel · .dmg</span></a>
+    <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.exe"><b>Windows</b><span>x64 · .exe</span></a>
+    <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.AppImage"><b>Linux</b><span>x64 · .AppImage</span></a>
+  </div>
+  <p class="smartscreen">
+    The Windows build isn't code-signed yet, so SmartScreen may warn on first run.
+    <a href="https://github.com/DrStylidis/deck-maker-app/releases">All releases →</a>
+  </p>
+</section>
+
+<footer>
+  <div class="marks">
+    <a href="why.html">Why</a>
+    <a href="faq.html">FAQ</a>
+    <a href="https://github.com/DrStylidis/deck-maker-app">GitHub</a>
+    <a href="https://github.com/DrStylidis/deck-maker-app/releases">Releases</a>
+    <a href="privacy.html">Privacy &amp; cookies</a>
+  </div>
+  © 2026 The Unintended · Free and local-first · AI image generation available in-app ·
+  Made by <a href="https://www.intendedfuture.ai/">Intended Future</a>
+</footer>
+
+<script>
+// Version badge from the latest GitHub release — silent when offline/rate-limited.
+fetch('https://api.github.com/repos/DrStylidis/deck-maker-app/releases/latest')
+  .then((r) => (r.ok ? r.json() : null))
+  .then((rel) => {
+    if (rel && rel.tag_name) {
+      document.getElementById('version').textContent =
+        rel.tag_name + ' · macOS 11+ · Apple silicon'
+    }
+  })
+  .catch(() => {})
+
+// OS detection: point the primary buttons at the visitor's platform.
+// (Apple silicon vs Intel isn't detectable — arm64 stays the Mac default.)
+;(function () {
+  const base = 'https://github.com/DrStylidis/deck-maker-app/releases/latest/download/'
+  const p = navigator.platform || ''
+  const ua = navigator.userAgent || ''
+  let href = null
+  let label = null
+  if (/Win/.test(p)) { href = base + 'Deck-Maker-x64.exe'; label = '⬇ Download for Windows' }
+  else if (/Linux/.test(p) && !/Android/.test(ua)) { href = base + 'Deck-Maker-x64.AppImage'; label = '⬇ Download for Linux' }
+  if (href) {
+    const hero = document.getElementById('hero-dl')
+    const nav = document.getElementById('nav-dl')
+    hero.href = nav.href = href
+    hero.textContent = label
+    document.getElementById('version').textContent = ''
+  }
+})()
+</script>
+
+</body>
+</html>
