@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Why — Deck Maker</title>
-<meta name="description" content="Why Deck Maker exists: a CEO and scientist who could write the words and make the images, but kept losing days to layout." />
+<title>API keys — Deck Maker</title>
+<meta name="description" content="How to get an API key from Anthropic, OpenAI, or xAI and add it to Deck Maker. Two minutes, one paste, stored in your keychain." />
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icon_round_32x32.png" />
 <link rel="icon" type="image/png" sizes="64x64" href="assets/icon_round_64x64.png" />
 <link rel="apple-touch-icon" href="assets/icon_round_256x256.png" />
-<meta property="og:title" content="Why — Deck Maker" />
-<meta property="og:description" content="Why Deck Maker exists: a CEO and scientist who could write the words and make the images, but kept losing days to layout." />
+<meta property="og:title" content="API keys — Deck Maker" />
+<meta property="og:description" content="How to get an API key from Anthropic, OpenAI, or xAI and add it to Deck Maker. Two minutes, one paste, stored in your keychain." />
 <meta property="og:image" content="https://theunintended.me/assets/og.png" />
-<meta property="og:url" content="https://theunintended.me/why.html" />
+<meta property="og:url" content="https://theunintended.me/keys.html" />
 <meta property="og:type" content="article" />
 <meta name="twitter:card" content="summary_large_image" />
 <style>
@@ -153,7 +153,7 @@ a:hover { text-decoration: underline; }
 .nav a.brandlink { text-decoration: none; display: flex; align-items: center; }
 .nav a.brandlink:hover { text-decoration: none; }
 .nav .spacer { flex: 1; }
-.nav .lnk { font-size: 14px; font-weight: 600; color: var(--text-2); }
+.nav .lnk { font-size: 14px; font-weight: 600; color: var(--text-2); white-space: nowrap; }
 .nav .lnk.on { color: var(--text); }
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
@@ -166,7 +166,7 @@ a:hover { text-decoration: underline; }
 .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,.18); text-decoration: none; }
 .btn.sm { padding: 9px 16px; font-size: 14px; }
 
-/* ── Essay ────────────────────────────────────────────────────────────────── */
+/* ── Guide column ─────────────────────────────────────────────────────────── */
 .essay { max-width: 660px; margin: 0 auto; padding: 76px 0 0; }
 .eyebrow {
   font-size: 12px; font-weight: 700; letter-spacing: var(--track-rail);
@@ -179,34 +179,54 @@ h1 {
   line-height: 1; letter-spacing: -0.02em;
   margin: 0 0 30px;
 }
-/* LinkedIn-style portrait — sits in the signature block next to the name. */
-.avatar {
-  width: 64px; height: 64px; border-radius: 50%; object-fit: cover;
-  flex: none;
-  box-shadow: 0 0 0 3px var(--surface), var(--shadow-card);
-}
-
-/* The opening paragraph carries the reader in — set it a notch larger. */
-.essay p { font-size: 17px; color: var(--text-2); margin: 0 0 22px; text-align: justify; }
+.essay p { font-size: 17px; color: var(--text-2); margin: 0 0 22px; }
 .essay p.lede { font-size: 20px; line-height: 1.5; color: var(--text); }
 .essay p strong { color: var(--text); font-weight: 600; }
 
-/* The Lufthansa line gets to stand alone — it's the turn of the story. */
-.beat {
+/* ── Provider cards — same live glass as the home-page cells ──────────────── */
+.provider {
+  border-radius: 16px; padding: 24px 26px; margin: 0 0 16px;
+  background:
+    radial-gradient(130% 150% at 12% 0%, rgba(238, 135, 112, 0.15), transparent 55%),
+    radial-gradient(130% 150% at 100% 100%, rgba(31, 185, 230, 0.13), transparent 55%),
+    var(--glass-bg);
+  -webkit-backdrop-filter: blur(24px) saturate(1.7);
+  backdrop-filter: blur(24px) saturate(1.7);
+  box-shadow: inset 0 1px 0 var(--glass-specular), inset 0 0 0 1px var(--glass-edge), var(--glass-shadow);
+}
+.provider:nth-of-type(2) {
+  background:
+    radial-gradient(130% 150% at 12% 0%, rgba(141, 187, 204, 0.20), transparent 55%),
+    radial-gradient(130% 150% at 100% 100%, rgba(236, 203, 188, 0.18), transparent 55%),
+    var(--glass-bg);
+}
+.provider:nth-of-type(3) {
+  background:
+    radial-gradient(130% 150% at 12% 0%, rgba(31, 185, 230, 0.16), transparent 55%),
+    radial-gradient(130% 150% at 100% 100%, rgba(170, 231, 243, 0.14), transparent 55%),
+    var(--glass-bg);
+}
+.provider .head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.provider h3 { font-family: var(--display); font-weight: 590; font-size: 22px; letter-spacing: -0.01em; margin: 0; }
+.provider .chip {
+  font-family: var(--mono); font-size: 12px; color: var(--text-2);
+  background: var(--surface); border-radius: 7px; padding: 5px 10px;
+  box-shadow: var(--shadow-card); white-space: nowrap;
+}
+.provider ol { margin: 12px 0 0; padding-left: 22px; }
+.provider li { font-size: 15px; color: var(--text-2); margin: 6px 0; }
+.provider li strong { color: var(--text); font-weight: 600; }
+
+/* The paste-it step stands apart — it's the payoff, not another card. */
+.then { margin: 40px 0 0; padding-left: 22px; border-left: 3px solid var(--coral); }
+.then h2 {
   font-family: var(--display); font-weight: 590;
   font-size: clamp(22px, 3.4vw, 28px); line-height: 1.25;
-  letter-spacing: -0.01em; color: var(--text);
-  margin: 40px 0; padding-left: 22px;
-  border-left: 3px solid var(--coral);
+  letter-spacing: -0.01em; margin: 0 0 10px;
 }
-.beat span { display: block; font-family: var(--body); font-weight: 400; font-size: 16px; color: var(--text-2); margin-top: 10px; letter-spacing: 0; }
-
-.sig {
-  display: flex; align-items: center; gap: 14px;
-  margin: 44px 0 0; padding-top: 26px; border-top: 1px solid var(--border);
-}
-.sig .who { font-size: 14.5px; font-weight: 700; color: var(--text); line-height: 1.35; }
-.sig .role { font-size: 13.5px; font-weight: 400; color: var(--text-2); }
+.then p { font-size: 16px; color: var(--text-2); margin: 0 0 12px; }
+.then p strong { color: var(--text); font-weight: 600; }
+.fine { font-size: 14px; color: var(--text-3); margin: 26px 0 0; }
 
 /* ── Tail CTA ─────────────────────────────────────────────────────────────── */
 .tail { text-align: center; padding: 72px 0 0; }
@@ -234,6 +254,7 @@ footer a { color: var(--text-2); font-weight: 600; }
   .nav .brand { display: none; }
   .nav .lnk { font-size: 12.5px; }
   .btn.sm { padding: 8px 12px; font-size: 13px; }
+  .provider { padding: 20px; }
 }
 </style>
 </head>
@@ -248,8 +269,8 @@ footer a { color: var(--text-2); font-weight: 600; }
     </span>
   </a>
   <div class="spacer"></div>
-  <a class="lnk on" href="why.html">Why</a>
-  <a class="lnk" href="keys.html">API keys</a>
+  <a class="lnk" href="why.html">Why</a>
+  <a class="lnk on" href="keys.html">API keys</a>
   <a class="lnk" href="faq.html">FAQ</a>
   <a class="lnk" href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>
   <a class="btn sm" id="nav-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">Download</a>
@@ -258,57 +279,73 @@ footer a { color: var(--text-2); font-weight: 600; }
 <main class="wrap">
   <article class="essay">
     <p class="eyebrow">The Unintended</p>
-    <h1>Why</h1>
+    <h1>API keys</h1>
 
     <p class="lede">
-      I'm CEO and co-founder of Intended Future. Most weeks I'm presenting our
-      products to clients, pitching to investors, or reporting to the board. I'm
-      also a scientist, and if you've ever sat through a scientific conference,
-      you know exactly what those slides look like. I was no exception.
+      Deck Maker authors with your own AI key. Pick one provider below — a
+      single key is enough — and you're about two minutes away from your first
+      deck.
     </p>
 
     <p>
-      I can lose days to a single presentation. Not to the content: I can write,
-      and I like writing. I can make the images I want in Midjourney or Nano
-      Banana, and I like that too. <strong>What costs me the days is layout and
-      form.</strong> Where things sit. How much air they need. Why the third
-      bullet refuses to line up with the second.
+      The key means you pay the provider directly, at cost, with nobody in
+      between. It's why the app is free and needs no subscription. Each
+      provider shows a key exactly once when you create it, so copy it right
+      away. If you lose one, just create another.
     </p>
 
-    <p>
-      So a professional designer built Intended Future a proper brand book. It
-      worked, for a while. Then the products evolved, the pitch changed, new
-      slides were needed, and I was back at midnight nudging text boxes by two
-      pixels.
-    </p>
-
-    <p>
-      That's when I decided I wanted an app where I drop in new text (drafted
-      with Claude, then edited until it sounds like me), drop in the images I
-      made myself, and get back a finished deck in Intended Future's style. Or
-      Apple's style. Or whatever style I feel like that morning.
-    </p>
-
-    <p>
-      I coded the prototype on the way to the Design 2026 conference in Dubrovnik.
-    </p>
-
-    <div class="beat">
-      Thank you, Lufthansa, for WiFi on board.
-    </div>
-
-    <p>
-      What you're downloading is exactly what I use myself. I hope it will be
-      useful to you too.
-    </p>
-
-    <div class="sig">
-      <img class="avatar" src="assets/kostas.jpg" alt="Kostas Stylidis" width="64" height="64" />
-      <div class="who">
-        Kostas Stylidis
-        <div class="role">CEO and co-founder, Intended Future</div>
+    <section class="provider">
+      <div class="head">
+        <h3>Anthropic (Claude)</h3>
+        <span class="chip">sk-ant-…</span>
       </div>
+      <ol>
+        <li>Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and sign in (creating an account is free).</li>
+        <li>Under <strong>Billing</strong>, add a little credit. $5 is plenty to start.</li>
+        <li>Open <strong>API keys</strong>, click <strong>Create key</strong>, and copy the key.</li>
+      </ol>
+    </section>
+
+    <section class="provider">
+      <div class="head">
+        <h3>OpenAI</h3>
+        <span class="chip">sk-…</span>
+      </div>
+      <ol>
+        <li>Go to <a href="https://platform.openai.com" target="_blank" rel="noopener">platform.openai.com</a> and sign in.</li>
+        <li>Under <strong>Settings → Billing</strong>, add a little credit.</li>
+        <li>Open <strong>API keys</strong>, click <strong>Create new secret key</strong>, and copy the key.</li>
+      </ol>
+    </section>
+
+    <section class="provider">
+      <div class="head">
+        <h3>xAI (Grok)</h3>
+        <span class="chip">xai-…</span>
+      </div>
+      <ol>
+        <li>Go to <a href="https://console.x.ai" target="_blank" rel="noopener">console.x.ai</a> and sign in.</li>
+        <li>Add a little credit under <strong>Billing</strong> if asked.</li>
+        <li>Open <strong>API keys</strong>, create a key, and copy it.</li>
+      </ol>
+    </section>
+
+    <div class="then">
+      <h2>Then paste it into Deck Maker</h2>
+      <p>
+        Open Deck Maker, go to <strong>Settings → API keys</strong>, paste the
+        key next to your provider, and click <strong>Save key</strong>. That's
+        the whole setup — authoring now runs under your key.
+      </p>
     </div>
+
+    <p class="fine">
+      Keys are stored encrypted in your operating system's keychain (Keychain
+      on macOS, Credential Manager on Windows, the system keyring on Linux)
+      and are sent only to the provider you configured. They never reach us.
+      Prefer no cloud at all? Deck Maker can run against a
+      <a href="faq.html#ai">local model</a> instead.
+    </p>
   </article>
 
   <section class="tail">
@@ -320,7 +357,7 @@ footer a { color: var(--text-2); font-weight: 600; }
 <footer>
   <div class="marks">
     <a href="index.html">Home</a>
-    <a href="keys.html">API keys</a>
+    <a href="why.html">Why</a>
     <a href="faq.html">FAQ</a>
     <a href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>
     <a href="https://github.com/DrStylidis/deck-maker-app/releases" target="_blank" rel="noopener">Releases</a>
