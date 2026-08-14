@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>API keys — Deck Maker</title>
-<meta name="description" content="How to get an API key from Anthropic, OpenAI, or xAI and add it to Deck Maker. Two minutes, one paste, stored in your keychain." />
+<title>MCP server — Deck Maker</title>
+<meta name="description" content="Deck Maker doubles as an MCP server. Connect Claude Desktop, Claude Code, or Cursor and your assistant makes decks in your styles — on-brand every time." />
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icon_round_32x32.png" />
 <link rel="icon" type="image/png" sizes="64x64" href="assets/icon_round_64x64.png" />
 <link rel="apple-touch-icon" href="assets/icon_round_256x256.png" />
-<meta property="og:title" content="API keys — Deck Maker" />
-<meta property="og:description" content="How to get an API key from Anthropic, OpenAI, or xAI and add it to Deck Maker. Two minutes, one paste, stored in your keychain." />
+<meta property="og:title" content="MCP server — Deck Maker" />
+<meta property="og:description" content="Deck Maker doubles as an MCP server. Connect Claude Desktop, Claude Code, or Cursor and your assistant makes decks in your styles — on-brand every time." />
 <meta property="og:image" content="https://theunintended.me/assets/og.png" />
-<meta property="og:url" content="https://theunintended.me/keys.html" />
+<meta property="og:url" content="https://theunintended.me/mcp.html" />
 <meta property="og:type" content="article" />
 <meta name="twitter:card" content="summary_large_image" />
 <style>
@@ -182,8 +182,9 @@ h1 {
 .essay p { font-size: 17px; color: var(--text-2); margin: 0 0 22px; }
 .essay p.lede { font-size: 20px; line-height: 1.5; color: var(--text); }
 .essay p strong { color: var(--text); font-weight: 600; }
+.essay code { font-family: var(--mono); font-size: 0.92em; color: var(--text); }
 
-/* ── Provider cards — same live glass as the home-page cells ──────────────── */
+/* ── Client cards — same live glass as keys.html's provider cards ─────────── */
 .provider {
   border-radius: 16px; padding: 24px 26px; margin: 0 0 16px;
   background:
@@ -216,8 +217,9 @@ h1 {
 .provider ol { margin: 12px 0 0; padding-left: 22px; }
 .provider li { font-size: 15px; color: var(--text-2); margin: 6px 0; }
 .provider li strong { color: var(--text); font-weight: 600; }
+.provider li code { font-family: var(--mono); font-size: 0.92em; color: var(--text); }
 
-/* The paste-it step stands apart — it's the payoff, not another card. */
+/* The ask-it step stands apart — it's the payoff, not another card. */
 .then { margin: 40px 0 0; padding-left: 22px; border-left: 3px solid var(--coral); }
 .then h2 {
   font-family: var(--display); font-weight: 590;
@@ -229,8 +231,8 @@ h1 {
 .fine { font-size: 14px; color: var(--text-3); margin: 26px 0 0; }
 
 /* ── Tail CTA ─────────────────────────────────────────────────────────────── */
-.tail { text-align: center; padding: 72px 0 0; }
-.tail .meta { font-family: var(--mono); font-size: 13px; color: var(--text-3); margin-top: 14px; }
+.tail-cta { text-align: center; padding: 72px 0 0; }
+.tail-cta .meta { font-family: var(--mono); font-size: 13px; color: var(--text-3); margin-top: 14px; }
 
 /* ── Footer ───────────────────────────────────────────────────────────────── */
 footer {
@@ -276,8 +278,8 @@ footer a { color: var(--text-2); font-weight: 600; }
   </a>
   <div class="spacer"></div>
   <a class="lnk" href="why.html">Why</a>
-  <a class="lnk on" href="keys.html">API keys</a>
-  <a class="lnk" href="mcp.html">MCP<span class="tail"> server</span></a>
+  <a class="lnk" href="keys.html">API keys</a>
+  <a class="lnk on" href="mcp.html">MCP<span class="tail"> server</span></a>
   <a class="lnk" href="faq.html">FAQ</a>
   <a class="lnk gh" href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>
   <a class="btn sm" id="nav-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">Download</a>
@@ -286,76 +288,92 @@ footer a { color: var(--text-2); font-weight: 600; }
 <main class="wrap">
   <article class="essay">
     <p class="eyebrow">The Unintended</p>
-    <h1>API keys</h1>
+    <h1>MCP server</h1>
 
     <p class="lede">
-      Deck Maker authors with your own AI key. Pick one provider below — a
-      single key is enough — and you're about two minutes away from your first
-      deck.
+      Deck Maker doubles as an MCP server. Connect it once, and Claude (or
+      Cursor) can build whole decks for you: the assistant writes the
+      content, Deck Maker lays it out in the style you chose, and the result
+      is on-brand every single time.
     </p>
 
     <p>
-      The key means you pay the provider directly, at cost, with nobody in
-      between. It's why the app is free and needs no subscription. Each
-      provider shows a key exactly once when you create it, so copy it right
-      away. If you lose one, just create another.
+      AI assistants are great at words and hopeless at visual consistency —
+      ask one for slides twice and you get two different-looking decks. Deck
+      Maker fixes the second half. Your styles, extracted from an old
+      PowerPoint, a website, or a plain description, are applied <strong>after</strong>
+      the writing, by the layout engine rather than the model. The assistant
+      literally can't drift off-brand.
+    </p>
+
+    <p>
+      MCP, the Model Context Protocol, is the open standard assistants use
+      to work with apps on your machine. Once connected, yours can extract a
+      style from a <code>.pptx</code>, a <code>.pdf</code>, a URL, or a
+      description · make a deck from notes in any saved style · edit and
+      restyle slides · export PPTX or PDF · and open the result in the app.
     </p>
 
     <section class="provider">
       <div class="head">
-        <h3>Anthropic (Claude)</h3>
-        <span class="chip">sk-ant-…</span>
+        <h3>Claude Desktop</h3>
+        <span class="chip">one click</span>
       </div>
       <ol>
-        <li>Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and sign in (creating an account is free).</li>
-        <li>Under <strong>Billing</strong>, add a little credit. $5 is plenty to start.</li>
-        <li>Open <strong>API keys</strong>, click <strong>Create key</strong>, and copy the key.</li>
+        <li>Open Deck Maker and go to <strong>Settings → Connect AI assistants</strong>.</li>
+        <li>Click <strong>Connect</strong> next to Claude Desktop.</li>
+        <li>Restart Claude Desktop. The <code>deck-maker</code> tools appear on their own.</li>
       </ol>
     </section>
 
     <section class="provider">
       <div class="head">
-        <h3>OpenAI</h3>
-        <span class="chip">sk-…</span>
+        <h3>Claude Code</h3>
+        <span class="chip">one command</span>
       </div>
       <ol>
-        <li>Go to <a href="https://platform.openai.com" target="_blank" rel="noopener">platform.openai.com</a> and sign in.</li>
-        <li>Under <strong>Settings → Billing</strong>, add a little credit.</li>
-        <li>Open <strong>API keys</strong>, click <strong>Create new secret key</strong>, and copy the key.</li>
+        <li>Open the same panel: <strong>Settings → Connect AI assistants</strong>.</li>
+        <li>Click <strong>Copy</strong> next to the Claude Code command.</li>
+        <li>Paste it into a terminal and press return. Done.</li>
       </ol>
     </section>
 
     <section class="provider">
       <div class="head">
-        <h3>xAI (Grok)</h3>
-        <span class="chip">xai-…</span>
+        <h3>Cursor</h3>
+        <span class="chip">one click</span>
       </div>
       <ol>
-        <li>Go to <a href="https://console.x.ai" target="_blank" rel="noopener">console.x.ai</a> and sign in.</li>
-        <li>Add a little credit under <strong>Billing</strong> if asked.</li>
-        <li>Open <strong>API keys</strong>, create a key, and copy it.</li>
+        <li>Open Deck Maker and go to <strong>Settings → Connect AI assistants</strong>.</li>
+        <li>Click <strong>Connect</strong> next to Cursor.</li>
+        <li>Restart Cursor and the tools are there.</li>
       </ol>
     </section>
 
     <div class="then">
-      <h2>Then paste it into Deck Maker</h2>
+      <h2>Then just ask</h2>
       <p>
-        Open Deck Maker, go to <strong>Settings → API keys</strong>, paste the
-        key next to your provider, and click <strong>Save key</strong>. That's
-        the whole setup — authoring now runs under your key.
+        <strong>“Take the style from last-year.pptx, turn my notes into a deck
+        in that style, and export a PPTX.”</strong> The assistant extracts the
+        style, writes the slides, and Deck Maker does the layout. You can
+        watch the deck appear in the app as it happens.
       </p>
     </div>
 
     <p class="fine">
-      Keys are stored encrypted in your operating system's keychain (Keychain
-      on macOS, Credential Manager on Windows, the system keyring on Linux)
-      and are sent only to the provider you configured. They never reach us.
-      Prefer no cloud at all? Deck Maker can run against a
-      <a href="faq.html#ai">local model</a> instead.
+      Deck Maker just needs to be running (on a Mac it even launches itself
+      when the assistant calls). There's nothing extra to install: the
+      connector runs off the app, no Node.js required. The assistant works
+      through a scoped, per-launch token that never leaves your machine: it
+      can create and edit decks and styles, but it can never read your
+      <a href="keys.html">API keys</a>, change settings, or delete anything.
+      Deck authoring runs under your own key, same as in the app. If you
+      don't see <strong>Connect AI assistants</strong> in Settings, update
+      Deck Maker to the latest release.
     </p>
   </article>
 
-  <section class="tail">
+  <section class="tail-cta">
     <a class="btn" id="hero-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">⬇ Download for Mac</a>
     <p class="meta" id="version">macOS 11+ · Apple silicon</p>
   </section>
@@ -365,7 +383,7 @@ footer a { color: var(--text-2); font-weight: 600; }
   <div class="marks">
     <a href="index.html">Home</a>
     <a href="why.html">Why</a>
-    <a href="mcp.html">MCP server</a>
+    <a href="keys.html">API keys</a>
     <a href="faq.html">FAQ</a>
     <a href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>
     <a href="https://github.com/DrStylidis/deck-maker-app/releases" target="_blank" rel="noopener">Releases</a>

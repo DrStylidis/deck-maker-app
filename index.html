@@ -549,7 +549,7 @@ footer {
   border-top: 1px solid var(--border);
   text-align: center; font-size: 13.5px; color: var(--text-3);
 }
-footer .marks { display: flex; justify-content: center; gap: 18px; margin-bottom: 10px; }
+footer .marks { display: flex; justify-content: center; gap: 18px; margin-bottom: 10px; flex-wrap: wrap; }
 footer a { color: var(--text-2); font-weight: 600; }
 
 @media (max-width: 820px) {
@@ -560,9 +560,15 @@ footer a { color: var(--text-2); font-weight: 600; }
   .nav .by { display: none; }
   .nav img { width: 60px; height: 60px; margin: -8px 8px -8px -6px; }
   .nav .lnk { font-size: 13px; }
+  /* Six items: "MCP server" trims to "MCP" once space tightens. */
+  .nav .lnk .tail { display: none; }
   .hero { padding-top: 64px; }
 }
 /* 375px: five nav items only fit if the wordmark yields to the icon. */
+/* Phones: GitHub yields (it stays in the footer) so the row can't wrap. */
+@media (max-width: 560px) {
+  .nav .lnk.gh { display: none; }
+}
 @media (max-width: 480px) {
   .nav { gap: 8px; }
   .nav .brand { display: none; }
@@ -584,8 +590,9 @@ footer a { color: var(--text-2); font-weight: 600; }
   <div class="spacer"></div>
   <a class="lnk" href="why.html">Why</a>
   <a class="lnk" href="keys.html">API keys</a>
+  <a class="lnk" href="mcp.html">MCP<span class="tail"> server</span></a>
   <a class="lnk" href="faq.html">FAQ</a>
-  <a class="lnk" href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>
+  <a class="lnk gh" href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>
   <a class="btn sm" id="nav-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">Download</a>
 </nav>
 
@@ -763,6 +770,7 @@ footer a { color: var(--text-2); font-weight: 600; }
   <div class="marks">
     <a href="why.html">Why</a>
     <a href="keys.html">API keys</a>
+    <a href="mcp.html">MCP server</a>
     <a href="faq.html">FAQ</a>
     <a href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>
     <a href="https://github.com/DrStylidis/deck-maker-app/releases" target="_blank" rel="noopener">Releases</a>
@@ -777,9 +785,11 @@ footer a { color: var(--text-2); font-weight: 600; }
 fetch('https://api.github.com/repos/DrStylidis/deck-maker-app/releases/latest')
   .then((r) => (r.ok ? r.json() : null))
   .then((rel) => {
-    if (rel && rel.tag_name) {
-      document.getElementById('version').textContent =
-        rel.tag_name + ' · macOS 11+ · Apple silicon'
+    const el = document.getElementById('version')
+    // The OS-detect below blanks this line on Win/Linux (it's a Mac-specific
+    // string) — the fetch resolves later, so never resurrect it once blanked.
+    if (rel && rel.tag_name && el.textContent) {
+      el.textContent = rel.tag_name + ' · macOS 11+ · Apple silicon'
     }
   })
   .catch(() => {})
