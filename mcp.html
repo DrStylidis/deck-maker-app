@@ -207,13 +207,8 @@ h1 {
     radial-gradient(130% 150% at 100% 100%, rgba(170, 231, 243, 0.14), transparent 55%),
     var(--glass-bg);
 }
-.provider .head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.provider .head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .provider h3 { font-family: var(--display); font-weight: 590; font-size: 22px; letter-spacing: -0.01em; margin: 0; }
-.provider .chip {
-  font-family: var(--mono); font-size: 12px; color: var(--text-2);
-  background: var(--surface); border-radius: 7px; padding: 5px 10px;
-  box-shadow: var(--shadow-card); white-space: nowrap;
-}
 .provider ol { margin: 12px 0 0; padding-left: 22px; }
 .provider li { font-size: 15px; color: var(--text-2); margin: 6px 0; }
 .provider li strong { color: var(--text); font-weight: 600; }
@@ -317,10 +312,10 @@ footer a { color: var(--text-2); font-weight: 600; }
     <section class="provider">
       <div class="head">
         <h3>Claude Desktop</h3>
-        <span class="chip">one click</span>
+        <a class="btn sm" href="deckmaker://settings/assistants" title="Hands off to the installed Deck Maker app">Open Settings</a>
       </div>
       <ol>
-        <li>Open Deck Maker and go to <strong>Settings → Connect AI assistants</strong>.</li>
+        <li>Open Deck Maker and go to <strong>Settings → Connect AI assistants</strong> (the button on the right takes you straight there).</li>
         <li>Click <strong>Connect</strong> next to Claude Desktop.</li>
         <li>Restart Claude Desktop. The <code>deck-maker</code> tools appear on their own.</li>
       </ol>
@@ -329,7 +324,7 @@ footer a { color: var(--text-2); font-weight: 600; }
     <section class="provider">
       <div class="head">
         <h3>Claude Code</h3>
-        <span class="chip">one command</span>
+        <a class="btn sm" href="deckmaker://settings/assistants" title="Hands off to the installed Deck Maker app">Open Settings</a>
       </div>
       <ol>
         <li>Open the same panel: <strong>Settings → Connect AI assistants</strong>.</li>
@@ -341,7 +336,7 @@ footer a { color: var(--text-2); font-weight: 600; }
     <section class="provider">
       <div class="head">
         <h3>Cursor</h3>
-        <span class="chip">one click</span>
+        <a class="btn sm" href="deckmaker://settings/assistants" title="Hands off to the installed Deck Maker app">Open Settings</a>
       </div>
       <ol>
         <li>Open Deck Maker and go to <strong>Settings → Connect AI assistants</strong>.</li>
@@ -369,7 +364,10 @@ footer a { color: var(--text-2); font-weight: 600; }
       <a href="keys.html">API keys</a>, change settings, or delete anything.
       Deck authoring runs under your own key, same as in the app. If you
       don't see <strong>Connect AI assistants</strong> in Settings, update
-      Deck Maker to the latest release.
+      Deck Maker to the latest release. The <strong>Open Settings</strong>
+      buttons hand off to the installed app through a
+      <code>deckmaker://</code> link, so if clicking one does nothing,
+      install (or update) Deck Maker first.
     </p>
   </article>
 
