@@ -390,27 +390,27 @@ h1 .out { color: var(--coral-ink); } /* coral №1 — the outcome */
 .dots i { width: 26px; height: 3px; border-radius: 2px; background: var(--border); }
 .dots i:nth-child(4) { background: var(--accent); } /* no-animation default */
 
-/* One 20s timeline, four scenes: Claude script → drop .md → style from
+/* One 14s timeline (3.5s a scene), four scenes: Claude script → drop .md → style from
    website → deck comes back styled. Reduced motion gets the finished deck. */
 @media (prefers-reduced-motion: no-preference) {
-  .scene.s1 { animation: sc1 20s var(--ease) infinite; }
-  .scene.s2 { animation: sc2 20s var(--ease) infinite; }
-  .scene.s3 { animation: sc3 20s var(--ease) infinite; }
-  .scene.s4 { animation: sc4 20s var(--ease) infinite; }
+  .scene.s1 { animation: sc1 14s var(--ease) infinite; }
+  .scene.s2 { animation: sc2 14s var(--ease) infinite; }
+  .scene.s3 { animation: sc3 14s var(--ease) infinite; }
+  .scene.s4 { animation: sc4 14s var(--ease) infinite; }
   @keyframes sc1 { 0% { opacity: 0; } 2%, 22% { opacity: 1; } 25%, 100% { opacity: 0; } }
   @keyframes sc2 { 0%, 25% { opacity: 0; } 28%, 47% { opacity: 1; } 50%, 100% { opacity: 0; } }
   @keyframes sc3 { 0%, 50% { opacity: 0; } 53%, 72% { opacity: 1; } 75%, 100% { opacity: 0; } }
   @keyframes sc4 { 0%, 75% { opacity: 0; } 78%, 99% { opacity: 1; } 100% { opacity: 0; } }
 
   /* s1: the reply streams in */
-  .s1 .l1 { animation: lineIn 20s var(--ease) infinite; }
-  .s1 .l2 { animation: lineIn 20s var(--ease) infinite; animation-delay: 0.8s; }
-  .s1 .l3 { animation: lineIn 20s var(--ease) infinite; animation-delay: 1.6s; }
+  .s1 .l1 { animation: lineIn 14s var(--ease) infinite; }
+  .s1 .l2 { animation: lineIn 14s var(--ease) infinite; animation-delay: 0.8s; }
+  .s1 .l3 { animation: lineIn 14s var(--ease) infinite; animation-delay: 1.6s; }
   @keyframes lineIn { 0%, 5% { opacity: 0; } 8%, 100% { opacity: 1; } }
 
   /* s2: the file falls into the dropzone, which lights up */
-  .s2 .filechip { animation: chipDrop 20s var(--ease) infinite; }
-  .s2 .dz { animation: dzGlow 20s var(--ease) infinite; }
+  .s2 .filechip { animation: chipDrop 14s var(--ease) infinite; }
+  .s2 .dz { animation: dzGlow 14s var(--ease) infinite; }
   @keyframes chipDrop {
     0%, 29% { opacity: 0; transform: translate(-50%, -46px); }
     31% { opacity: 1; transform: translate(-50%, -46px); }
@@ -423,19 +423,19 @@ h1 .out { color: var(--coral-ink); } /* coral №1 — the outcome */
   }
 
   /* s3: swatches pop as the site is scraped */
-  .s3 .sw.a { animation: swPop 20s var(--ease) infinite; }
-  .s3 .sw.b { animation: swPop 20s var(--ease) infinite; animation-delay: 0.4s; }
-  .s3 .sw.c { animation: swPop 20s var(--ease) infinite; animation-delay: 0.8s; }
-  .s3 .sw.d { animation: swPop 20s var(--ease) infinite; animation-delay: 1.2s; }
-  .s3 .sw.f { animation: swPop 20s var(--ease) infinite; animation-delay: 1.6s; }
-  .s3 .styled-ok { animation: okIn 20s var(--ease) infinite; }
+  .s3 .sw.a { animation: swPop 14s var(--ease) infinite; }
+  .s3 .sw.b { animation: swPop 14s var(--ease) infinite; animation-delay: 0.4s; }
+  .s3 .sw.c { animation: swPop 14s var(--ease) infinite; animation-delay: 0.8s; }
+  .s3 .sw.d { animation: swPop 14s var(--ease) infinite; animation-delay: 1.2s; }
+  .s3 .sw.f { animation: swPop 14s var(--ease) infinite; animation-delay: 1.6s; }
+  .s3 .styled-ok { animation: okIn 14s var(--ease) infinite; }
   @keyframes swPop { 0%, 55% { opacity: 0; transform: scale(0.6); } 58%, 100% { opacity: 1; transform: scale(1); } }
   @keyframes okIn { 0%, 62% { opacity: 0; } 65%, 100% { opacity: 1; } }
 
   /* s4: authoring runs, then the slide reveals styled */
-  .slide .reveal { animation: reveal 20s var(--ease) infinite; }
-  .job .fill { animation: fill 20s linear infinite; }
-  .job .state::after { animation: state 20s step-end infinite; }
+  .slide .reveal { animation: reveal 14s var(--ease) infinite; }
+  .job .fill { animation: fill 14s linear infinite; }
+  .job .state::after { animation: state 14s step-end infinite; }
   @keyframes reveal {
     0%, 80% { opacity: 0; transform: translateY(6px); }
     85%, 100% { opacity: 1; transform: none; }
@@ -446,10 +446,10 @@ h1 .out { color: var(--coral-ink); } /* coral №1 — the outcome */
   @keyframes state { 0% { content: 'Authoring…'; } 85%, 100% { content: 'Styled ✓'; } }
 
   /* dots track the scenes */
-  .dots i:nth-child(1) { animation: d1 20s step-end infinite; }
-  .dots i:nth-child(2) { animation: d2 20s step-end infinite; }
-  .dots i:nth-child(3) { animation: d3 20s step-end infinite; }
-  .dots i:nth-child(4) { animation: d4 20s step-end infinite; }
+  .dots i:nth-child(1) { animation: d1 14s step-end infinite; }
+  .dots i:nth-child(2) { animation: d2 14s step-end infinite; }
+  .dots i:nth-child(3) { animation: d3 14s step-end infinite; }
+  .dots i:nth-child(4) { animation: d4 14s step-end infinite; }
   @keyframes d1 { 0% { background: var(--accent); } 25%, 100% { background: var(--border); } }
   @keyframes d2 { 0% { background: var(--border); } 25% { background: var(--accent); } 50%, 100% { background: var(--border); } }
   @keyframes d3 { 0% { background: var(--border); } 50% { background: var(--accent); } 75%, 100% { background: var(--border); } }
