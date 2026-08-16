@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Inter-Variable.woff2" crossorigin />
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Fraunces-Variable.woff2" crossorigin />
 <title>MCP server — Deck Maker</title>
 <meta name="description" content="Deck Maker doubles as an MCP server. Connect Claude Desktop, Claude Code, or Cursor and your assistant makes decks in your styles — on-brand every time." />
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icon_round_32x32.png" />
@@ -30,12 +32,13 @@
   font-display: swap;
   src: url('assets/fonts/Inter-Variable.woff2') format('woff2-variations');
 }
+/* Subset to ASCII: Manrope sets the wordmark and nothing else. */
 @font-face {
   font-family: 'Manrope';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url('assets/fonts/Manrope-VariableFont_wght.ttf') format('truetype-variations');
+  src: url('assets/fonts/Manrope-Wordmark.woff2') format('woff2-variations');
 }
 
 /* ── Tokens — same set as index.html ──────────────────────────────────────── */
@@ -300,7 +303,10 @@ footer a { color: var(--text-2); font-weight: 600; }
 
 <nav class="nav">
   <a class="brandlink" href="index.html" aria-label="Deck Maker, home">
-    <img src="assets/icon_round_512x512.png" alt="" width="84" height="84" />
+    <picture>
+      <source srcset="assets/icon_round_192.webp" type="image/webp" />
+      <img src="assets/icon_round_256x256.png" alt="" width="84" height="84" />
+    </picture>
     <span class="brand">
       <span class="name">Deck Maker</span>
       <span class="by">The Unintended</span>
