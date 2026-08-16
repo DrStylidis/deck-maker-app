@@ -1,0 +1,34 @@
+# Live checks against the deployed site + release download URLs (tests/live).
+# Runs weekly, on demand, and right after each desktop release (the private
+# monorepo's desktop-release.yml fires the release-published dispatch) — so a
+# renamed artifact or broken CDN link surfaces within minutes, not on the
+# next user complaint.
+name: live-checks
+
+on:
+  schedule:
+    - cron: '0 8 * * 1' # Mondays 08:00 UTC
+  workflow_dispatch: {}
+  repository_dispatch:
+    types: [release-published]
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:live
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-report
+          path: playwright-report/
+          retention-days: 7

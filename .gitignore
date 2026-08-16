@@ -1,1 +1,6 @@
 BRIEF.md
+
+# QA tooling (tests/ + playwright.config.ts are committed; these are not)
+node_modules/
+test-results/
+playwright-report/

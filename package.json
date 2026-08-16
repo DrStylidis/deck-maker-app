@@ -1,0 +1,14 @@
+{
+  "name": "deck-maker-landing-qa",
+  "private": true,
+  "type": "module",
+  "description": "QA for the theunintended.me landing pages. The site itself stays zero-dependency — everything here is devDependencies-only and never served.",
+  "scripts": {
+    "test": "playwright test --project=site",
+    "test:live": "playwright test --project=live",
+    "verify": "node tests/verify.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1"
+  }
+}

@@ -1,0 +1,32 @@
+# QA for the landing pages (tests/site — local HTML over a stdlib server).
+# NOTE: GitHub Pages deploys on push to main regardless of this workflow —
+# CI here is the alarm, not a gate. Run `npm test` locally before pushing
+# when it matters.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch: {}
+
+jobs:
+  site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-report
+          path: playwright-report/
+          retention-days: 7
