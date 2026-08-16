@@ -117,7 +117,11 @@ a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 :focus-visible { outline: 2px solid rgba(31, 185, 230, 0.7); outline-offset: 2px; border-radius: 4px; }
 
-.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+/* Side gutter for every page-width block. Rules that layer on top of .wrap must
+   use padding-block, never the `padding` shorthand, or this is reset to 0.
+   1128 = the 1080px content column the cards were designed on + both gutters
+   (border-box), so the desktop layout is unchanged by the gutter fix. */
+.wrap { max-width: 1128px; margin: 0 auto; padding-inline: 24px; }
 
 /* ── Nav — glass capsule, the app's own toolbar idiom ─────────────────────── */
 .nav {
@@ -172,7 +176,8 @@ a:hover { text-decoration: underline; }
 .btn.sm { padding: 9px 16px; font-size: 14px; }
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
-.hero { text-align: center; padding: 84px 0 40px; }
+/* padding-block only: a `padding` shorthand here would reset .wrap's side gutter. */
+.hero { text-align: center; padding-block: 84px 40px; }
 .eyebrow {
   font-size: 12px; font-weight: 700; letter-spacing: var(--track-rail);
   text-transform: uppercase; color: var(--text-2); margin: 0 0 20px;
@@ -195,7 +200,7 @@ h1 .out { color: var(--coral); } /* coral №1 — the outcome */
 .others a { margin: 0 6px; font-weight: 600; }
 
 /* ── Signature: the app window running the core loop ──────────────────────── */
-.stage { padding: 40px 0 8px; }
+.stage { padding-block: 40px 8px; }
 .window {
   position: relative;
   max-width: 880px; margin: 0 auto;
@@ -431,7 +436,7 @@ h1 .out { color: var(--coral); } /* coral №1 — the outcome */
 }
 
 /* ── How it works — the pipeline, numbered because it IS a sequence ───────── */
-.section { padding: 88px 0 0; }
+.section { padding-block: 88px 0; }
 .section > h2 {
   font-size: 12px; font-weight: 700; letter-spacing: var(--track-rail);
   text-transform: uppercase; color: var(--text-2);
@@ -501,7 +506,7 @@ h1 .out { color: var(--coral); } /* coral №1 — the outcome */
 .cell p { margin: 0; font-size: 14px; color: var(--text-2); }
 
 /* ── Privacy ──────────────────────────────────────────────────────────────── */
-.privacy { max-width: 640px; margin: 0 auto; text-align: center; }
+.privacy { max-width: 688px; margin: 0 auto; text-align: center; } /* 640px text column + .wrap gutters */
 .privacy p { font-size: 14.5px; color: var(--text-2); margin: 0; }
 
 /* ── Downloads ────────────────────────────────────────────────────────────── */
@@ -569,11 +574,25 @@ footer a { color: var(--text-2); font-weight: 600; }
 @media (max-width: 560px) {
   .nav .lnk.gh { display: none; }
 }
+/* Narrowest phones: API keys yields too (it stays in the footer). */
+@media (max-width: 400px) {
+  .nav .lnk.keys { display: none; }
+  .nav img { width: 48px; height: 48px; margin: -6px 6px -6px -4px; }
+}
 @media (max-width: 480px) {
   .nav { gap: 8px; }
   .nav .brand { display: none; }
   .nav .lnk { font-size: 12.5px; }
   .btn.sm { padding: 8px 12px; font-size: 13px; }
+  /* The job caption is nowrap; shrink it rather than let it push the page wide. */
+  .cap { font-size: 10.5px; padding: 7px 12px; max-width: calc(100% - 8px); }
+  .job { gap: 8px; }
+  .job .track { width: 48px; }
+  /* With the gutter in place the 16:9 slide is ~190px tall here; tighten its
+     inner spacing so the chart is not clipped by the slide's overflow. */
+  .slide { padding: 18px 22px 14px 40px; }
+  .slide .line { margin: 5px 0; }
+  .slide .chart { height: 40px; margin-top: 10px; }
 }
 </style>
 </head>
@@ -589,7 +608,7 @@ footer a { color: var(--text-2); font-weight: 600; }
   </a>
   <div class="spacer"></div>
   <a class="lnk" href="why.html">Why</a>
-  <a class="lnk" href="keys.html">API keys</a>
+  <a class="lnk keys" href="keys.html">API keys</a>
   <a class="lnk" href="mcp.html">MCP<span class="tail"> server</span></a>
   <a class="lnk" href="faq.html">FAQ</a>
   <a class="lnk gh" href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>

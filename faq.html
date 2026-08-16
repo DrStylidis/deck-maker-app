@@ -114,7 +114,9 @@ a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 :focus-visible { outline: 2px solid rgba(31, 185, 230, 0.7); outline-offset: 2px; border-radius: 4px; }
 
-.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+/* Side gutter for every page-width block. Rules that layer on top of .wrap must
+   use padding-block, never the `padding` shorthand, or this is reset to 0. */
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 24px; }
 
 /* ── Nav ──────────────────────────────────────────────────────────────────── */
 .nav {
@@ -167,7 +169,7 @@ a:hover { text-decoration: underline; }
 .btn.sm { padding: 9px 16px; font-size: 14px; }
 
 /* ── Page head ────────────────────────────────────────────────────────────── */
-.head { text-align: center; padding: 72px 0 8px; }
+.head { text-align: center; padding-block: 72px 8px; }
 .eyebrow {
   font-size: 12px; font-weight: 700; letter-spacing: var(--track-rail);
   text-transform: uppercase; color: var(--text-2); margin: 0 0 18px;
@@ -265,6 +267,11 @@ footer a { color: var(--text-2); font-weight: 600; }
 @media (max-width: 560px) {
   .nav .lnk.gh { display: none; }
 }
+/* Narrowest phones: API keys yields too (it stays in the footer). */
+@media (max-width: 400px) {
+  .nav .lnk.keys { display: none; }
+  .nav img { width: 48px; height: 48px; margin: -6px 6px -6px -4px; }
+}
 @media (max-width: 480px) {
   .nav { gap: 8px; }
   .nav .brand { display: none; }
@@ -285,7 +292,7 @@ footer a { color: var(--text-2); font-weight: 600; }
   </a>
   <div class="spacer"></div>
   <a class="lnk" href="why.html">Why</a>
-  <a class="lnk" href="keys.html">API keys</a>
+  <a class="lnk keys" href="keys.html">API keys</a>
   <a class="lnk" href="mcp.html">MCP<span class="tail"> server</span></a>
   <a class="lnk on" href="faq.html">FAQ</a>
   <a class="lnk gh" href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>
