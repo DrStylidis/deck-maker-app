@@ -238,9 +238,10 @@ details code {
 }
 
 /* ── Tail CTA ─────────────────────────────────────────────────────────────── */
-.tail { text-align: center; padding: 76px 0 0; }
-.tail p { font-size: 14.5px; color: var(--text-2); margin: 0 0 20px; }
-.tail .meta { font-family: var(--mono); font-size: 13px; color: var(--text-3); margin: 14px 0 0; }
+/* Named .tail-cta, not .tail: the nav's "MCP server" span already uses .tail. */
+.tail-cta { text-align: center; padding: 76px 0 0; }
+.tail-cta p { font-size: 14.5px; color: var(--text-2); margin: 0 0 20px; }
+.tail-cta .meta { font-family: var(--mono); font-size: 13px; color: var(--text-3); margin: 14px 0 0; }
 
 /* ── Footer ───────────────────────────────────────────────────────────────── */
 footer {
@@ -492,7 +493,7 @@ footer a { color: var(--text-2); font-weight: 600; }
     </div>
   </div>
 
-  <section class="tail">
+  <section class="tail-cta">
     <p>Still stuck? Open an issue on GitHub and I'll see it.</p>
     <a class="btn" id="hero-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">⬇ Download for Mac</a>
     <p class="meta" id="version">macOS 11+ · Apple silicon</p>

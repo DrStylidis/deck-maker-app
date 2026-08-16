@@ -211,8 +211,9 @@ h1 {
 .sig .role { font-size: 13.5px; font-weight: 400; color: var(--text-2); }
 
 /* ── Tail CTA ─────────────────────────────────────────────────────────────── */
-.tail { text-align: center; padding: 72px 0 0; }
-.tail .meta { font-family: var(--mono); font-size: 13px; color: var(--text-3); margin-top: 14px; }
+/* Named .tail-cta, not .tail: the nav's "MCP server" span already uses .tail. */
+.tail-cta { text-align: center; padding: 72px 0 0; }
+.tail-cta .meta { font-family: var(--mono); font-size: 13px; color: var(--text-3); margin-top: 14px; }
 
 /* ── Footer ───────────────────────────────────────────────────────────────── */
 footer {
@@ -325,7 +326,7 @@ footer a { color: var(--text-2); font-weight: 600; }
     </div>
   </article>
 
-  <section class="tail">
+  <section class="tail-cta">
     <a class="btn" id="hero-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">⬇ Download for Mac</a>
     <p class="meta" id="version">macOS 11+ · Apple silicon</p>
   </section>
