@@ -333,6 +333,7 @@ h1 .out { color: var(--coral-ink); } /* coral №1 — the outcome */
 .sw.a { background: #3c7c99; } .sw.b { background: #8dbbcc; } .sw.c { background: #1fb9e6; } .sw.d { background: #ee8770; }
 .sw.f {
   width: auto; height: auto; background: var(--surface-2); box-shadow: none;
+  font-family: 'Manrope', var(--body); /* the chip names the font, so show it */
   font-size: 11.5px; font-weight: 700; color: var(--text-2); padding: 5px 10px; border-radius: 8px;
 }
 .styled-ok { font-size: 12px; font-weight: 700; color: #2e7d55; margin-top: 8px; }
@@ -457,10 +458,17 @@ h1 .out { color: var(--coral-ink); } /* coral №1 — the outcome */
 
 /* ── How it works — the pipeline, numbered because it IS a sequence ───────── */
 .section { padding-block: 88px 0; }
+/* Section headings read as headings. The rail label treatment moves to .kicker
+   for the two sections where the heading really is just a label. */
 .section > h2 {
-  font-size: 12px; font-weight: 700; letter-spacing: var(--track-rail);
-  text-transform: uppercase; color: var(--text-2);
-  text-align: center; margin: 0 0 36px;
+  font-family: var(--display); font-weight: 590;
+  font-size: clamp(26px, 3.4vw, 34px); line-height: 1.15; letter-spacing: -0.02em;
+  color: var(--text); text-align: center; margin: 0 0 36px;
+}
+.section > h2.kicker {
+  font-family: var(--body); font-weight: 700;
+  font-size: 12px; letter-spacing: var(--track-rail); text-transform: uppercase;
+  color: var(--text-2); margin: 0 0 36px;
 }
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .step {
@@ -653,7 +661,7 @@ footer a { color: var(--text-2); font-weight: 600; }
 
 <main id="content">
 <header class="hero wrap">
-  <p class="eyebrow">Free · Local · No accounts</p>
+  <p class="eyebrow">Free · Local · Bring your own AI key</p>
   <h1>Notes in.<br /><span class="out">Deck out.</span></h1>
   <p class="sub">
     Drop in Markdown, an old PowerPoint, a PDF — or just describe the deck in a
@@ -768,7 +776,7 @@ footer a { color: var(--text-2); font-weight: 600; }
 </section>
 
 <section class="section wrap">
-  <h2>How it works</h2>
+  <h2 class="kicker">How it works</h2>
   <div class="steps">
     <div class="step">
       <div class="n">1</div>
@@ -804,7 +812,7 @@ footer a { color: var(--text-2); font-weight: 600; }
 </section>
 
 <section class="section wrap privacy" id="privacy">
-  <h2>Privacy</h2>
+  <h2 class="kicker">Privacy</h2>
   <p>
     Deck Maker reports three anonymous events — app launched, deck created, deck
     exported — along with your app version and OS. Never your content, your prompts,
@@ -814,7 +822,7 @@ footer a { color: var(--text-2); font-weight: 600; }
 </section>
 
 <section class="section wrap downloads">
-  <h2>All downloads</h2>
+  <h2 class="kicker">All downloads</h2>
   <div class="dl-row">
     <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg"><b>Mac</b><span>Apple silicon · .dmg</span></a>
     <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.dmg"><b>Mac</b><span>Intel · .dmg</span></a>
