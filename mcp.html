@@ -403,21 +403,40 @@ footer a { color: var(--text-2); font-weight: 600; }
 </footer>
 
 <script>
-// OS detection: point the primary buttons at the visitor's platform.
 ;(function () {
-  const base = 'https://github.com/DrStylidis/deck-maker-app/releases/latest/download/'
+  const BASE = 'https://github.com/DrStylidis/deck-maker-app/releases/latest/download/'
+
+  // Same table as index.html: hero label, file, and the requirements string.
+  const BUILDS = [
+    { id: 'mac-arm', hero: 'Mac',     file: 'Deck-Maker-arm64.dmg',        req: 'macOS 11+ · Apple silicon' },
+    { id: 'win',     hero: 'Windows', file: 'Deck-Maker-x64.exe',          req: 'Windows 10+ · x64' },
+    { id: 'linux',   hero: 'Linux',   file: 'Deck-Maker-x86_64.AppImage',  req: 'Linux · x86_64 AppImage' }
+  ]
+
+  // Apple silicon vs Intel is not detectable from the browser, so arm64 stays
+  // the Mac default (Intel is on the home page's alternates row).
   const p = navigator.platform || ''
   const ua = navigator.userAgent || ''
-  let href = null
-  let label = null
-  if (/Win/.test(p)) { href = base + 'Deck-Maker-x64.exe'; label = '⬇ Download for Windows' }
-  else if (/Linux/.test(p) && !/Android/.test(ua)) { href = base + 'Deck-Maker-x86_64.AppImage'; label = '⬇ Download for Linux' }
-  if (href) {
-    const hero = document.getElementById('hero-dl')
-    const nav = document.getElementById('nav-dl')
-    hero.href = nav.href = href
-    hero.textContent = label
-    document.getElementById('version').textContent = ''
+  let current = 'mac-arm'
+  if (/Win/.test(p)) current = 'win'
+  else if (/Linux/.test(p) && !/Android/.test(ua)) current = 'linux'
+
+  const build = BUILDS.find((b) => b.id === current)
+  const hero = document.getElementById('hero-dl')
+  const nav = document.getElementById('nav-dl')
+  const version = document.getElementById('version')
+
+  hero.href = nav.href = BASE + build.file
+  hero.textContent = '⬇ Download for ' + build.hero
+  version.textContent = build.req
+
+  if (current === 'win') {
+    const note = document.createElement('p')
+    note.className = 'meta'
+    note.style.opacity = '.85'
+    note.style.marginTop = '4px'
+    note.textContent = 'Not code-signed yet · SmartScreen may warn on first run'
+    version.insertAdjacentElement('afterend', note)
   }
 })()
 </script>
