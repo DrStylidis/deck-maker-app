@@ -49,10 +49,12 @@
   --surface: #ffffff;
   --surface-2: #eaebec;
   --text: #0b0c0e;
-  --text-2: #6f737b;
-  --text-3: #9ca0a8;
+  --text-2: #5f636b;
+  --text-3: #6c7078;
   --border: #e2e4e7;
-  --accent: #3c7c99;
+  --accent: #35708b;
+  --coral-ink: #d4553a; /* coral for text: --coral is 2.31:1 on --bg */
+  --focus: #0d7ea0;
   --btn-bg: #0b0c0e;
   --btn-text: #ffffff;
 
@@ -81,7 +83,9 @@
     --surface-2: #22262b;
     --text: #f5f5f6;
     --text-2: #9ba1a9;
-    --text-3: #6f737b;
+    --text-3: #868b93;
+    --coral-ink: #ee8770;
+    --focus: #1fb9e6;
     --border: #2a2e33;
     --accent: #8dbbcc;
     --btn-bg: #f5f5f6;
@@ -112,7 +116,7 @@ body {
 }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
-:focus-visible { outline: 2px solid rgba(31, 185, 230, 0.7); outline-offset: 2px; border-radius: 4px; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
 
 /* Side gutter for every page-width block. Rules that layer on top of .wrap must
    use padding-block, never the `padding` shorthand, or this is reset to 0. */
