@@ -121,6 +121,17 @@ a:hover { text-decoration: underline; }
 /* Side gutter for every page-width block. Rules that layer on top of .wrap must
    use padding-block, never the `padding` shorthand, or this is reset to 0. */
 .wrap { max-width: 1080px; margin: 0 auto; padding-inline: 24px; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip {
+  position: absolute; left: 12px; top: -48px; z-index: 20;
+  background: var(--btn-bg); color: var(--btn-text);
+  padding: 12px 16px; border-radius: var(--r-full); font-size: 14px; font-weight: 600;
+  transition: top 120ms var(--ease);
+}
+.skip:focus { top: 12px; text-decoration: none; }
 
 /* ── Nav ──────────────────────────────────────────────────────────────────── */
 .nav {
@@ -252,6 +263,17 @@ footer a { color: var(--text-2); font-weight: 600; }
   /* Six items: "MCP server" trims to "MCP" once space tightens. */
   .nav .lnk .tail { display: none; }
   .essay { padding-top: 52px; }
+  /* 44px minimum touch targets without moving anything: footer links get
+     padding with compensating negative margins; nav links, the small nav
+     button and prose links get an absolutely positioned hit area instead,
+     because padding or inline-block would change the nav height or how prose
+     wraps. (Three-letter nav links stay ~40px wide; wider would overlap.) */
+  .nav .lnk, .btn.sm, main a:not(.btn):not(.dl) { position: relative; }
+  .nav .lnk::after { content: ''; position: absolute; inset: -13px -8px; }
+  .btn.sm::after { content: ''; position: absolute; inset: -8px 0; }
+  main a:not(.btn):not(.dl)::after { content: ''; position: absolute; inset: -14px -4px; }
+  .btn:not(.sm) { min-height: 44px; }
+  footer a { display: inline-block; padding: 13px 10px; margin: -13px -10px; }
 }
 /* Phones: GitHub yields (it stays in the footer) so the row can't wrap. */
 @media (max-width: 560px) {
@@ -274,9 +296,11 @@ footer a { color: var(--text-2); font-weight: 600; }
 </head>
 <body>
 
+<a class="skip" href="#content">Skip to content</a>
+
 <nav class="nav">
-  <a class="brandlink" href="index.html">
-    <img src="assets/icon_round_512x512.png" alt="" />
+  <a class="brandlink" href="index.html" aria-label="Deck Maker, home">
+    <img src="assets/icon_round_512x512.png" alt="" width="84" height="84" />
     <span class="brand">
       <span class="name">Deck Maker</span>
       <span class="by">The Unintended</span>
@@ -287,11 +311,11 @@ footer a { color: var(--text-2); font-weight: 600; }
   <a class="lnk keys" href="keys.html">API keys</a>
   <a class="lnk on" href="mcp.html">MCP<span class="tail"> server</span></a>
   <a class="lnk" href="faq.html">FAQ</a>
-  <a class="lnk gh" href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>
+  <a class="lnk gh" href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
   <a class="btn sm" id="nav-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">Download</a>
 </nav>
 
-<main class="wrap">
+<main class="wrap" id="content">
   <article class="essay">
     <p class="eyebrow">The Unintended</p>
     <h1>MCP server</h1>
@@ -394,8 +418,8 @@ footer a { color: var(--text-2); font-weight: 600; }
     <a href="why.html">Why</a>
     <a href="keys.html">API keys</a>
     <a href="faq.html">FAQ</a>
-    <a href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://github.com/DrStylidis/deck-maker-app/releases" target="_blank" rel="noopener">Releases</a>
+    <a href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+    <a href="https://github.com/DrStylidis/deck-maker-app/releases" target="_blank" rel="noopener">Releases<span class="sr-only"> (opens in a new tab)</span></a>
     <a href="privacy.html">Privacy &amp; cookies</a>
   </div>
   © 2026 The Unintended · Free and local-first · AI image generation available in-app ·

@@ -126,6 +126,17 @@ a:hover { text-decoration: underline; }
    1128 = the 1080px content column the cards were designed on + both gutters
    (border-box), so the desktop layout is unchanged by the gutter fix. */
 .wrap { max-width: 1128px; margin: 0 auto; padding-inline: 24px; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip {
+  position: absolute; left: 12px; top: -48px; z-index: 20;
+  background: var(--btn-bg); color: var(--btn-text);
+  padding: 12px 16px; border-radius: var(--r-full); font-size: 14px; font-weight: 600;
+  transition: top 120ms var(--ease);
+}
+.skip:focus { top: 12px; text-decoration: none; }
 
 /* ── Nav — glass capsule, the app's own toolbar idiom ─────────────────────── */
 .nav {
@@ -369,8 +380,10 @@ h1 .out { color: var(--coral-ink); } /* coral №1 — the outcome */
 .job .state::after { content: 'Styled ✓'; }
 
 /* Step dots under the window — sync with the 4 scenes */
-.dots { display: flex; justify-content: center; gap: 7px; margin-top: 16px; }
-.dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--border); }
+/* A progress rail, not a pager: the scenes advance on their own and there is
+   nothing to click, so the shape should not promise a control. */
+.dots { display: flex; justify-content: center; gap: 3px; margin-top: 16px; }
+.dots i { width: 26px; height: 3px; border-radius: 2px; background: var(--border); }
 .dots i:nth-child(4) { background: var(--accent); } /* no-animation default */
 
 /* One 20s timeline, four scenes: Claude script → drop .md → style from
@@ -572,6 +585,17 @@ footer a { color: var(--text-2); font-weight: 600; }
   /* Six items: "MCP server" trims to "MCP" once space tightens. */
   .nav .lnk .tail { display: none; }
   .hero { padding-top: 64px; }
+  /* 44px minimum touch targets without moving anything: footer links get
+     padding with compensating negative margins; nav links, the small nav
+     button and prose links get an absolutely positioned hit area instead,
+     because padding or inline-block would change the nav height or how prose
+     wraps. (Three-letter nav links stay ~40px wide; wider would overlap.) */
+  .nav .lnk, .btn.sm, main a:not(.btn):not(.dl) { position: relative; }
+  .nav .lnk::after { content: ''; position: absolute; inset: -13px -8px; }
+  .btn.sm::after { content: ''; position: absolute; inset: -8px 0; }
+  main a:not(.btn):not(.dl)::after { content: ''; position: absolute; inset: -14px -4px; }
+  .btn:not(.sm) { min-height: 44px; }
+  footer a { display: inline-block; padding: 13px 10px; margin: -13px -10px; }
 }
 /* 375px: five nav items only fit if the wordmark yields to the icon. */
 /* Phones: GitHub yields (it stays in the footer) so the row can't wrap. */
@@ -602,9 +626,11 @@ footer a { color: var(--text-2); font-weight: 600; }
 </head>
 <body>
 
+<a class="skip" href="#content">Skip to content</a>
+
 <nav class="nav">
-  <a class="brandlink" href="index.html">
-    <img src="assets/icon_round_512x512.png" alt="" />
+  <a class="brandlink" href="index.html" aria-label="Deck Maker, home">
+    <img src="assets/icon_round_512x512.png" alt="" width="84" height="84" />
     <span class="brand">
       <span class="name">Deck Maker</span>
       <span class="by">The Unintended</span>
@@ -615,10 +641,11 @@ footer a { color: var(--text-2); font-weight: 600; }
   <a class="lnk keys" href="keys.html">API keys</a>
   <a class="lnk" href="mcp.html">MCP<span class="tail"> server</span></a>
   <a class="lnk" href="faq.html">FAQ</a>
-  <a class="lnk gh" href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>
+  <a class="lnk gh" href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
   <a class="btn sm" id="nav-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">Download</a>
 </nav>
 
+<main id="content">
 <header class="hero wrap">
   <p class="eyebrow">Free · Local · No accounts</p>
   <h1>Notes in.<br /><span class="out">Deck out.</span></h1>
@@ -639,8 +666,13 @@ footer a { color: var(--text-2); font-weight: 600; }
   </div>
 </header>
 
-<section class="stage wrap" aria-label="The Deck Maker flow: draft a script in Claude, drop the Markdown, extract your style from a website, get a styled deck">
-  <div class="window">
+<section class="stage wrap">
+  <p class="sr-only">
+    A looping illustration of the flow: draft a deck script in Claude, drop the
+    Markdown into a new deck, point StyleMaker at your website to lift the palette,
+    font, and logo, and get back a styled slide.
+  </p>
+  <div class="window" aria-hidden="true">
     <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
     <div class="body">
       <aside class="rail">
@@ -726,7 +758,7 @@ footer a { color: var(--text-2); font-weight: 600; }
       </div>
     </div>
   </div>
-  <div class="dots"><i></i><i></i><i></i><i></i></div>
+  <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 </section>
 
 <section class="section wrap">
@@ -785,9 +817,11 @@ footer a { color: var(--text-2); font-weight: 600; }
   </div>
   <p class="smartscreen">
     The Windows build isn't code-signed yet, so SmartScreen may warn on first run.
-    <a href="https://github.com/DrStylidis/deck-maker-app/releases" target="_blank" rel="noopener">All releases →</a>
+    <a href="https://github.com/DrStylidis/deck-maker-app/releases" target="_blank" rel="noopener">All releases →<span class="sr-only"> (opens in a new tab)</span></a>
   </p>
 </section>
+
+</main>
 
 <footer>
   <div class="marks">
@@ -795,8 +829,8 @@ footer a { color: var(--text-2); font-weight: 600; }
     <a href="keys.html">API keys</a>
     <a href="mcp.html">MCP server</a>
     <a href="faq.html">FAQ</a>
-    <a href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://github.com/DrStylidis/deck-maker-app/releases" target="_blank" rel="noopener">Releases</a>
+    <a href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+    <a href="https://github.com/DrStylidis/deck-maker-app/releases" target="_blank" rel="noopener">Releases<span class="sr-only"> (opens in a new tab)</span></a>
     <a href="privacy.html">Privacy &amp; cookies</a>
   </div>
   © 2026 The Unintended · Free and local-first · AI image generation available in-app ·

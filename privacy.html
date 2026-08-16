@@ -52,6 +52,17 @@ body {
 }
 a { color: var(--accent); text-decoration: none; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip {
+  position: absolute; left: 12px; top: -48px; z-index: 20;
+  background: var(--text); color: var(--bg);
+  padding: 12px 16px; border-radius: 999px; font-size: 14px; font-weight: 600;
+  transition: top 120ms cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.skip:focus { top: 12px; text-decoration: none; }
 a:hover { text-decoration: underline; }
 .nav {
   position: sticky; top: 12px; z-index: 10;
@@ -85,18 +96,26 @@ strong { color: var(--text); font-weight: 650; }
   padding: 18px 20px; margin: 18px 0;
 }
 .card p { margin: 0; }
+/* 44px touch targets without moving anything: an absolutely positioned hit
+   area, since inline-block padding would change how prose links wrap. */
+@media (max-width: 820px) {
+  .nav a, main a { position: relative; }
+  .nav a::after, main a::after { content: ''; position: absolute; inset: -13px 0; }
+}
 </style>
 </head>
 <body>
 
+<a class="skip" href="#content">Skip to content</a>
+
 <nav class="nav">
-  <img src="assets/icon_round_64x64.png" alt="" />
+  <img src="assets/icon_round_64x64.png" alt="" width="24" height="24" />
   <span class="name">Deck Maker</span>
   <span class="spacer"></span>
   <a href="index.html">← Back to theunintended.me</a>
 </nav>
 
-<main>
+<main id="content">
   <h1>Privacy &amp; cookies</h1>
   <p class="updated">Last updated: 31 July 2026</p>
 
