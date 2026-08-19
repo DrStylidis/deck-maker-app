@@ -471,6 +471,18 @@ h1 .out { color: var(--coral-ink); } /* coral №1 — the outcome */
   color: var(--text-2); margin: 0 0 36px;
 }
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+/* The one real screenshot. Windowed shadow (not a card) so it reads as the
+   application, not another feature tile. */
+.shot { margin: 44px 0 0; }
+.shot img {
+  display: block; width: 100%; height: auto;
+  border-radius: 14px; border: 1px solid var(--border);
+  box-shadow: var(--shadow-window);
+}
+.shot figcaption {
+  margin-top: 14px; text-align: center;
+  font-size: 14px; line-height: 1.5; color: var(--text-2);
+}
 .step {
   background: var(--glass-bg);
   -webkit-backdrop-filter: blur(24px) saturate(1.7);
@@ -797,6 +809,18 @@ footer a { color: var(--text-2); font-weight: 600; }
       <span class="chip">.pdf · .pptx · website</span>
     </div>
   </div>
+
+  <!-- One real screenshot of the app: everything else on this page is a CSS
+       re-creation, and someone about to install a desktop app deserves to see
+       the thing itself. Straight from the app at 1440×900, retina. -->
+  <figure class="shot">
+    <img
+      src="assets/app-canvas.webp"
+      alt="The Deck Maker app: a slide open on the Design canvas with its headline selected, the formatting toolbar above it, and the image panel on the left."
+      width="2160" height="1350" loading="lazy" decoding="async"
+    />
+    <figcaption>The Design canvas. Click any element to select it, drag to move, double-click to edit — the slide you are looking at is the deck you send.</figcaption>
+  </figure>
 </section>
 
 <section class="section wrap">
