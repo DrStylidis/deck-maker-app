@@ -139,6 +139,14 @@ strong { color: var(--text); font-weight: 650; }
     and your browser asks the GitHub API for the latest release number to show the version
     badge. We receive nothing from either.
   </p>
+  <p>
+    One thing happens when you click a download button: the link passes through our own
+    server before sending you to the installer on GitHub, and we count that click. What we
+    keep is which build was chosen (Mac, Windows or Linux), which button it was, the
+    operating system family your browser reports, and a coarse server region. Your IP
+    address is not stored, no cookie is set, and nothing identifies you or links the click
+    to anything else.
+  </p>
 
   <h2>The Deck Maker app</h2>
   <p>

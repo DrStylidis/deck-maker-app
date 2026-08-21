@@ -321,7 +321,7 @@ footer a { color: var(--text-2); font-weight: 600; }
   <a class="lnk" href="mcp.html">MCP</a>
   <a class="lnk" href="faq.html">FAQ</a>
   <a class="lnk gh" href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
-  <a class="btn sm" id="nav-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">Download</a>
+  <a class="btn sm" id="nav-dl" href="https://decks.intendedfuture.ai/api/dl/mac-arm64?src=keys-nav">Download</a>
 </nav>
 
 <main class="wrap" id="content">
@@ -397,7 +397,7 @@ footer a { color: var(--text-2); font-weight: 600; }
   </article>
 
   <section class="tail-cta">
-    <a class="btn" id="hero-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">⬇ Download for Mac</a>
+    <a class="btn" id="hero-dl" href="https://decks.intendedfuture.ai/api/dl/mac-arm64?src=keys-hero">⬇ Download for Mac</a>
     <p class="meta" id="version">macOS 11+ · Apple silicon</p>
   </section>
 </main>
@@ -418,13 +418,14 @@ footer a { color: var(--text-2); font-weight: 600; }
 
 <script>
 ;(function () {
-  const BASE = 'https://github.com/DrStylidis/deck-maker-app/releases/latest/download/'
+  const BASE = 'https://decks.intendedfuture.ai/api/dl/'
+  const PAGE = 'keys' // ?src=<page>-<button>, so Stats can tell which link converts
 
-  // Same table as index.html: hero label, file, and the requirements string.
+  // Same table as index.html: hero label, /api/dl slug, and the requirements string.
   const BUILDS = [
-    { id: 'mac-arm', hero: 'Mac',     file: 'Deck-Maker-arm64.dmg',        req: 'macOS 11+ · Apple silicon' },
-    { id: 'win',     hero: 'Windows', file: 'Deck-Maker-x64.exe',          req: 'Windows 10+ · x64' },
-    { id: 'linux',   hero: 'Linux',   file: 'Deck-Maker-x86_64.AppImage',  req: 'Linux · x86_64 AppImage' }
+    { id: 'mac-arm', hero: 'Mac',     slug: 'mac-arm64',  req: 'macOS 11+ · Apple silicon' },
+    { id: 'win',     hero: 'Windows', slug: 'win-x64',    req: 'Windows 10+ · x64' },
+    { id: 'linux',   hero: 'Linux',   slug: 'linux-x64',  req: 'Linux · x86_64 AppImage' }
   ]
 
   // Apple silicon vs Intel is not detectable from the browser, so arm64 stays
@@ -440,7 +441,8 @@ footer a { color: var(--text-2); font-weight: 600; }
   const nav = document.getElementById('nav-dl')
   const version = document.getElementById('version')
 
-  hero.href = nav.href = BASE + build.file
+  hero.href = BASE + build.slug + '?src=' + PAGE + '-hero'
+  nav.href = BASE + build.slug + '?src=' + PAGE + '-nav'
   hero.textContent = '⬇ Download for ' + build.hero
   version.textContent = build.req
 

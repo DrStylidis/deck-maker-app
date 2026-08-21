@@ -19,8 +19,8 @@ test('faq.html is fully usable without JavaScript', async ({ page }) => {
   await expect(second).toHaveAttribute('open', '')
 
   // No JS → no OS detection → the Mac defaults must stand.
-  await expect(page.locator('#hero-dl')).toHaveAttribute('href', /Deck-Maker-arm64\.dmg$/)
-  await expect(page.locator('#nav-dl')).toHaveAttribute('href', /Deck-Maker-arm64\.dmg$/)
+  await expect(page.locator('#hero-dl')).toHaveAttribute('href', /\/api\/dl\/mac-arm64\?src=faq-hero$/)
+  await expect(page.locator('#nav-dl')).toHaveAttribute('href', /\/api\/dl\/mac-arm64\?src=faq-nav$/)
 
   // Category anchors (the h2s) must clear the 108px sticky nav.
   const margins = await page.$$eval('h2[id]', (hs) =>

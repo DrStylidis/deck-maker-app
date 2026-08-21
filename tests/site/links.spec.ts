@@ -1,12 +1,13 @@
 import { expect, test } from '@playwright/test'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { DOWNLOAD_BASE, EXPECTED_ARTIFACTS, PAGES, ROOT } from '../helpers'
+import { DOWNLOAD_BASE, DOWNLOAD_SLUGS, EXPECTED_ARTIFACTS, PAGES, RELEASE_BASE, ROOT, slugOf } from '../helpers'
 
 /**
  * Every relative link resolves to a real file, every #anchor targets a real
- * id (same page or cross-page), and every release download URL uses an
- * artifact name electron-builder actually emits.
+ * id (same page or cross-page), every download button uses a slug the
+ * /api/dl redirect accepts and carries its ?src tag, and any direct release
+ * URL uses an artifact name electron-builder actually emits.
  */
 for (const pageFile of PAGES) {
   test(`${pageFile}: internal links, anchors, download names`, async ({ page }) => {
@@ -18,7 +19,12 @@ for (const pageFile of PAGES) {
     const problems: string[] = []
     for (const href of hrefs) {
       if (href.startsWith(DOWNLOAD_BASE)) {
-        const name = href.slice(DOWNLOAD_BASE.length)
+        if (!(slugOf(href) in DOWNLOAD_SLUGS)) problems.push(`bad download slug: ${href}`)
+        if (!/\?src=[a-z0-9-]+$/.test(href)) problems.push(`download link without ?src tag: ${href}`)
+        continue
+      }
+      if (href.startsWith(RELEASE_BASE)) {
+        const name = href.slice(RELEASE_BASE.length)
         if (!EXPECTED_ARTIFACTS.includes(name)) problems.push(`bad artifact name: ${href}`)
         continue
       }

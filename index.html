@@ -667,7 +667,7 @@ footer a { color: var(--text-2); font-weight: 600; }
   <a class="lnk" href="mcp.html">MCP</a>
   <a class="lnk" href="faq.html">FAQ</a>
   <a class="lnk gh" href="https://github.com/DrStylidis/deck-maker-app" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
-  <a class="btn sm" id="nav-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">Download</a>
+  <a class="btn sm" id="nav-dl" href="https://decks.intendedfuture.ai/api/dl/mac-arm64?src=index-nav">Download</a>
 </nav>
 
 <main id="content">
@@ -681,13 +681,13 @@ footer a { color: var(--text-2); font-weight: 600; }
     own API key from any of the cloud providers.
   </p>
   <div class="cta">
-    <a class="btn" id="hero-dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg">⬇ Download for Mac</a>
+    <a class="btn" id="hero-dl" href="https://decks.intendedfuture.ai/api/dl/mac-arm64?src=index-hero">⬇ Download for Mac</a>
     <span class="meta" id="version">macOS 11+ · Apple silicon</span>
     <p class="others" id="others">
       also:
-      <a href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.dmg">Mac (Intel)</a> ·
-      <a href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.exe">Windows</a> ·
-      <a href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x86_64.AppImage">Linux</a>
+      <a href="https://decks.intendedfuture.ai/api/dl/mac-x64?src=index-also">Mac (Intel)</a> ·
+      <a href="https://decks.intendedfuture.ai/api/dl/win-x64?src=index-also">Windows</a> ·
+      <a href="https://decks.intendedfuture.ai/api/dl/linux-x64?src=index-also">Linux</a>
     </p>
   </div>
 </header>
@@ -848,10 +848,10 @@ footer a { color: var(--text-2); font-weight: 600; }
 <section class="section wrap downloads">
   <h2 class="kicker">All downloads</h2>
   <div class="dl-row">
-    <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-arm64.dmg"><b>Mac</b><span>Apple silicon · .dmg</span></a>
-    <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.dmg"><b>Mac</b><span>Intel · .dmg</span></a>
-    <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x64.exe"><b>Windows</b><span>x64 · .exe</span></a>
-    <a class="dl" href="https://github.com/DrStylidis/deck-maker-app/releases/latest/download/Deck-Maker-x86_64.AppImage"><b>Linux</b><span>x64 · .AppImage</span></a>
+    <a class="dl" href="https://decks.intendedfuture.ai/api/dl/mac-arm64?src=index-grid"><b>Mac</b><span>Apple silicon · .dmg</span></a>
+    <a class="dl" href="https://decks.intendedfuture.ai/api/dl/mac-x64?src=index-grid"><b>Mac</b><span>Intel · .dmg</span></a>
+    <a class="dl" href="https://decks.intendedfuture.ai/api/dl/win-x64?src=index-grid"><b>Windows</b><span>x64 · .exe</span></a>
+    <a class="dl" href="https://decks.intendedfuture.ai/api/dl/linux-x64?src=index-grid"><b>Linux</b><span>x64 · .AppImage</span></a>
   </div>
   <p class="smartscreen">
     The Windows build isn't code-signed yet, so SmartScreen may warn on first run.
@@ -877,15 +877,16 @@ footer a { color: var(--text-2); font-weight: 600; }
 
 <script>
 ;(function () {
-  const BASE = 'https://github.com/DrStylidis/deck-maker-app/releases/latest/download/'
+  const BASE = 'https://decks.intendedfuture.ai/api/dl/'
+  const PAGE = 'index' // ?src=<page>-<button>, so Stats can tell which link converts
 
   // id -> label for the hero button, short label for the alternates row,
-  // file, and the requirements string shown under the button.
+  // /api/dl slug, and the requirements string shown under the button.
   const BUILDS = [
-    { id: 'mac-arm', hero: 'Mac',     also: 'Mac (Apple silicon)', file: 'Deck-Maker-arm64.dmg',        req: 'macOS 11+ · Apple silicon' },
-    { id: 'mac-x64', hero: 'Mac',     also: 'Mac (Intel)',         file: 'Deck-Maker-x64.dmg',          req: 'macOS 11+ · Intel' },
-    { id: 'win',     hero: 'Windows', also: 'Windows',             file: 'Deck-Maker-x64.exe',          req: 'Windows 10+ · x64' },
-    { id: 'linux',   hero: 'Linux',   also: 'Linux',               file: 'Deck-Maker-x86_64.AppImage',  req: 'Linux · x86_64 AppImage' }
+    { id: 'mac-arm', hero: 'Mac',     also: 'Mac (Apple silicon)', slug: 'mac-arm64',  req: 'macOS 11+ · Apple silicon' },
+    { id: 'mac-x64', hero: 'Mac',     also: 'Mac (Intel)',         slug: 'mac-x64',    req: 'macOS 11+ · Intel' },
+    { id: 'win',     hero: 'Windows', also: 'Windows',             slug: 'win-x64',    req: 'Windows 10+ · x64' },
+    { id: 'linux',   hero: 'Linux',   also: 'Linux',               slug: 'linux-x64',  req: 'Linux · x86_64 AppImage' }
   ]
 
   // Apple silicon vs Intel is not detectable from the browser, so arm64 stays
@@ -902,7 +903,8 @@ footer a { color: var(--text-2); font-weight: 600; }
   const version = document.getElementById('version')
   const others = document.getElementById('others')
 
-  hero.href = nav.href = BASE + build.file
+  hero.href = BASE + build.slug + '?src=' + PAGE + '-hero'
+  nav.href = BASE + build.slug + '?src=' + PAGE + '-nav'
   hero.textContent = '⬇ Download for ' + build.hero
   version.textContent = build.req
 
@@ -912,7 +914,7 @@ footer a { color: var(--text-2); font-weight: 600; }
   others.textContent = 'also: '
   rest.forEach((b, i) => {
     const a = document.createElement('a')
-    a.href = BASE + b.file
+    a.href = BASE + b.slug + '?src=index-also'
     a.textContent = b.also
     others.appendChild(a)
     if (i < rest.length - 1) others.appendChild(document.createTextNode(' · '))

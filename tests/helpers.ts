@@ -9,8 +9,26 @@ export const PAGES = ['index.html', 'why.html', 'keys.html', 'mcp.html', 'faq.ht
 /** Pages that carry the download CTA + OS-detection script. */
 export const CTA_PAGES = ['index.html', 'why.html', 'keys.html', 'mcp.html', 'faq.html']
 
-export const DOWNLOAD_BASE =
+/** Where every download button points: the counted redirect on the API
+ *  (GET /api/dl/<slug>?src=<page>-<button> → 302 to the GitHub asset). */
+export const DOWNLOAD_BASE = 'https://decks.intendedfuture.ai/api/dl/'
+
+/** Where the redirect lands. */
+export const RELEASE_BASE =
   'https://github.com/DrStylidis/deck-maker-app/releases/latest/download/'
+
+/** /api/dl slug → GitHub asset it redirects to (mirrors api/src/routes/download.ts). */
+export const DOWNLOAD_SLUGS: Record<string, string> = {
+  'mac-arm64': 'Deck-Maker-arm64.dmg',
+  'mac-x64': 'Deck-Maker-x64.dmg',
+  'win-x64': 'Deck-Maker-x64.exe',
+  'linux-x64': 'Deck-Maker-x86_64.AppImage',
+}
+
+/** `https://…/api/dl/mac-arm64?src=index-hero` → `mac-arm64`. */
+export function slugOf(href: string): string {
+  return href.slice(DOWNLOAD_BASE.length).split('?')[0]
+}
 
 /**
  * What electron-builder actually emits (artifactName Deck-Maker-${arch}.${ext}
